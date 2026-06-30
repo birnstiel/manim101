@@ -1,0 +1,432 @@
+---
+title: "Manim for Astro Visualizations"
+subtitle: "Code Coffee seminar for astronomers"
+author: "Til Birnstiel / Code Coffee"
+execute:
+  eval: false
+resources:
+  - examples/
+---
+
+# Manim for Astro Visualizations {.center}
+
+::: {.subtitle}
+A compact introduction to making mathematical and astronomy outreach animations in Python.
+:::
+
+::: {.callout}
+Goal: after this seminar, you can read a Manim scene, edit one of the examples, and render a short clip.
+:::
+
+## What is Manim?
+
+:::: {.columns}
+::: {.column width="55%"}
+Manim is a Python library for **programmatic animations**.
+
+Good for:
+
+- explaining geometry and math
+- moving diagrams that stay precise
+- reproducible outreach visuals
+- animations that can be version-controlled
+:::
+
+::: {.column width="45%"}
+::: {.astro-card}
+**Typical output**
+
+`scene.py` → Manim render → `.mp4`, `.gif`, or image
+
+**Core idea**
+
+Objects live in a scene. You create them, animate them, update them, and render frames.
+:::
+:::
+::::
+
+## Why astronomers might like it
+
+- Orbits, projections, coordinate systems
+- Exoplanet transits and light curves
+- Parallax and distance-ladder explanations
+- H-R diagrams, toy populations, survey geometry
+- Short clips for talks, lectures, social media, and outreach
+
+::: {.callout}
+Manim is especially useful when a static plot is almost right, but the audience needs to see *what changes over time*.
+:::
+
+# Install and render
+
+## Recommended local setup
+
+Use a project environment so your animations are reproducible.
+
+```bash
+# create a project folder
+uv init manim-astro-demo
+cd manim-astro-demo
+
+# add Manim to the local environment
+uv add manim
+
+# check the installation
+uv run manim checkhealth
+```
+
+Alternative if you already manage Python environments yourself:
+
+```bash
+python -m venv .venv
+source .venv/bin/activate   # Windows: .venv\Scripts\activate
+pip install manim
+manim checkhealth
+```
+
+## Rendering basics
+
+A Manim file contains one or more `Scene` classes.
+
+```bash
+manim -pql orbit_basics.py OrbitBasics
+```
+
+Useful flags:
+
+| Flag | Meaning |
+|---|---|
+| `-p` | open the video after rendering |
+| `-ql` | low quality, fast preview |
+| `-qm` | medium quality |
+| `-qh` | high quality |
+
+Batch render the examples from this project:
+
+```bash
+cd examples
+bash render_all_examples.sh
+```
+
+# Manim mental model
+
+## The smallest useful scene
+
+```python
+from manim import *
+
+class HelloOrbit(Scene):
+    def construct(self):
+        star = Dot(ORIGIN, color=YELLOW)
+        orbit = Circle(radius=2.0, color=BLUE)
+        label = Text("orbit", font_size=32).to_edge(UP)
+
+        self.play(Write(label))
+        self.play(FadeIn(star), Create(orbit))
+        self.wait()
+```
+
+A scene is just a Python class with a `construct()` method.
+
+## Three concepts you will use often
+
+:::: {.columns}
+::: {.column width="33%"}
+::: {.astro-card}
+**Mobjects**
+
+Visual objects:
+
+`Dot`, `Circle`, `Line`, `Text`, `Axes`, `VGroup`
+:::
+:::
+
+::: {.column width="33%"}
+::: {.astro-card}
+**Animations**
+
+Actions over time:
+
+`Create`, `FadeIn`, `Transform`, `MoveAlongPath`, `.animate`
+:::
+:::
+
+::: {.column width="33%"}
+::: {.astro-card}
+**Updaters**
+
+Frame-by-frame logic:
+
+`ValueTracker`, `always_redraw`, `TracedPath`
+:::
+:::
+::::
+
+# Example 1: Orbit basics
+
+## Orbit: what the viewer sees
+
+A simple scene with:
+
+- a star at the origin
+- a circular orbit
+- a planet driven by an angle
+- a traced path
+- a radius vector that updates every frame
+
+Render:
+
+```bash
+cd examples
+manim -pql orbit_basics.py OrbitBasics
+```
+
+## Orbit: the key pattern
+
+```python
+orbit_radius = 2.2
+angle = ValueTracker(0)
+
+def planet_position():
+    a = angle.get_value()
+    return orbit_radius * np.array([np.cos(a), np.sin(a), 0.0])
+
+planet = always_redraw(
+    lambda: Dot(point=planet_position(), radius=0.09, color="#6EC6FF")
+)
+
+radius_line = always_redraw(
+    lambda: Line(ORIGIN, planet_position(), color="#6EC6FF")
+)
+
+trail = TracedPath(planet.get_center, stroke_color="#6EC6FF")
+self.add(radius_line, trail, planet)
+self.play(angle.animate.set_value(TAU), run_time=6, rate_func=linear)
+```
+
+::: {.small}
+File: `examples/orbit_basics.py`
+:::
+
+# Example 2: Exoplanet transit
+
+## Transit: geometry plus light curve
+
+This example connects two things students often see separately:
+
+1. a planet crossing a stellar disk
+2. a dip in relative flux
+
+Render:
+
+```bash
+cd examples
+manim -pql exoplanet_transit.py ExoplanetTransit
+```
+
+## Transit: toy model and moving point
+
+```python
+def relative_flux(phase: float) -> float:
+    """Toy transit model: flat-ish dip near phase zero."""
+    depth = 0.026
+    return 1.0 - depth * np.exp(-((phase / 0.34) ** 8))
+
+phase = ValueTracker(-1.15)
+
+curve = axes.plot(
+    relative_flux,
+    x_range=[-1.15, 1.15, 0.01],
+    color="#6EC6FF",
+    stroke_width=4,
+)
+
+moving_point = always_redraw(
+    lambda: Dot(
+        point=axes.c2p(phase.get_value(), relative_flux(phase.get_value())),
+        radius=0.055,
+        color="#FFFFFF",
+    )
+)
+```
+
+::: {.small}
+File: `examples/exoplanet_transit.py`
+:::
+
+## Transit: what to customize
+
+- Change `depth` to show different planet radii.
+- Change the phase range to show ingress and egress more slowly.
+- Add labels for ingress, mid-transit, and egress.
+- Replace the toy model with a real light curve calculation later.
+
+::: {.callout}
+Teaching trick: start with the geometry, then reveal the plot. The animation makes the causal link obvious.
+:::
+
+# Example 3: Stellar parallax
+
+## Parallax: outreach version
+
+This scene shows a nearby star shifting against distant background stars as Earth moves around the Sun.
+
+Render:
+
+```bash
+cd examples
+manim -pql stellar_parallax.py StellarParallax
+```
+
+The example is qualitative, not a full astrometric model.
+
+## Parallax: apparent motion
+
+```python
+theta = ValueTracker(0)
+base = np.array([0.0, 0.45, 0.0])
+
+def apparent_shift():
+    return np.array([
+        0.72 * np.cos(theta.get_value()),
+        0.25 * np.sin(theta.get_value()),
+        0.0,
+    ])
+
+nearby_star = always_redraw(
+    lambda: Dot(point=base + apparent_shift(), radius=0.09, color="#FDB813")
+)
+trail = TracedPath(nearby_star.get_center, stroke_color="#FDB813")
+```
+
+::: {.small}
+File: `examples/stellar_parallax.py`
+:::
+
+# Example 4: H-R diagram
+
+## H-R diagram: animated data story
+
+The example uses stylized points, but the pattern works for real catalogs:
+
+1. load arrays
+2. map values to axes
+3. group related points
+4. animate the story in layers
+
+Render:
+
+```bash
+cd examples
+manim -pql hr_diagram.py HRDiagram
+```
+
+## H-R diagram: axes and point groups
+
+```python
+axes = Axes(
+    x_range=[-2.5, 2.5, 1],
+    y_range=[-4.2, 4.2, 2],
+    x_length=7.2,
+    y_length=4.6,
+    tips=False,
+)
+
+xs = np.linspace(-2.15, 2.15, 20)
+main_sequence = VGroup(
+    *[
+        dot_at(x, -1.15 * x + 0.15 + 0.20 * np.sin(3 * x), star_color(x))
+        for x in xs
+    ]
+)
+
+self.play(LaggedStart(*[FadeIn(dot, scale=0.5) for dot in main_sequence]))
+```
+
+::: {.small}
+File: `examples/hr_diagram.py`
+:::
+
+## H-R diagram: next steps with real data
+
+Replace the toy arrays with catalog data, for example:
+
+```python
+# sketch only: keep data loading separate from scene logic
+import pandas as pd
+
+catalog = pd.read_csv("nearby_stars.csv")
+color = catalog["bp_rp"].to_numpy()
+abs_mag = catalog["M_G"].to_numpy()
+
+points = VGroup(*[
+    Dot(axes.c2p(c, -m), radius=0.025)
+    for c, m in zip(color, abs_mag)
+])
+```
+
+::: {.callout}
+Manim is not a replacement for scientific plotting. It is a presentation layer for explaining the plot.
+:::
+
+# How to structure your own animation
+
+## A practical workflow
+
+1. Sketch the story in one sentence.
+2. Make the static objects first.
+3. Add one moving quantity with `ValueTracker`.
+4. Use `always_redraw` only where the object truly changes.
+5. Render with `-ql` until the timing works.
+6. Render final clips with `-qh` or `-qk` only at the end.
+
+## Debugging tips
+
+- Use `Text` labels during development, remove later.
+- Keep functions small: `make_axes()`, `make_star_field()`, `make_light_curve()`.
+- Prefer named variables over long one-line animations.
+- If rendering is slow, preview shorter segments or fewer points.
+- Avoid LaTeX until the core animation works.
+
+# Wrap-up
+
+## What to try after Code Coffee
+
+- Change the orbit to an ellipse.
+- Add eccentric anomaly / true anomaly labels.
+- Add limb darkening to the transit example.
+- Load a real Gaia subset for the H-R diagram.
+- Export a short animation for a lecture slide or outreach post.
+
+::: {.callout}
+Start small: one scene, one moving parameter, one message.
+:::
+
+## Files in this Quarto project
+
+```text
+manim_quarto/
+├── _quarto.yml
+├── manim.qmd
+├── styles.css
+├── README.md
+└── examples/
+    ├── orbit_basics.py
+    ├── exoplanet_transit.py
+    ├── stellar_parallax.py
+    ├── hr_diagram.py
+    └── render_all_examples.sh
+```
+
+Render the slide deck:
+
+```bash
+quarto preview manim.qmd
+```
+
+Render the animations:
+
+```bash
+cd examples
+bash render_all_examples.sh
+```

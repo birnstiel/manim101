@@ -1,0 +1,20 @@
+/* Code Coffee Manim deck styling */
+:root {
+  --r-background-color: #0b1020;
+  --r-main-color: #eef4ff;
+  --r-heading-color: #ffffff;
+  --r-link-color: #6ec6ff;
+  --r-selection-background-color: #fdb813;
+}
+.reveal .slide-logo { max-height: 44px !important; }
+.reveal h1, .reveal h2 { letter-spacing: -0.03em; }
+.reveal h1 { font-size: 2.25em; }
+.reveal h2 { font-size: 1.45em; }
+.reveal code { color: #e9f4ff; }
+.reveal pre code { max-height: 540px; font-size: 0.72em; line-height: 1.25; }
+.reveal .subtitle { color: #b8c7dd; }
+.reveal .small { font-size: 0.72em; }
+.reveal .callout { border-left: 4px solid #fdb813; padding: 0.6em 0.9em; background: rgba(255,255,255,0.06); }
+.reveal .astro-card { padding: 0.65em 0.8em; border-radius: 18px; background: rgba(255,255,255,0.07); }
+.reveal .columns { gap: 1.2em; }
+.reveal img { border-radius: 16px; }

@@ -1,0 +1,16 @@
+project:
+  type: website
+
+website:
+  title: "Manim"
+  navbar:
+    left:
+      - href: manim.qmd
+        text: Slides
+
+format:
+  revealjs:
+    theme: default
+    css: styles.css
+    slide-number: true
+    code-overflow: wrap

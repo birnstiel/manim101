@@ -1,0 +1,21 @@
+[workspace]
+authors = ["Til Birnstiel <til.birnstiel@lmu.de>"]
+channels = ["conda-forge"]
+name = "manim_env"
+platforms = ["osx-arm64"]
+version = "0.1.0"
+
+[tasks]
+
+[dependencies]
+python = ">=3.12,<3.13"
+numpy = "*"
+scipy = "*"
+jupyter = "*"
+ipykernel = "*"
+matplotlib = "*"
+astropy = "*"
+manim = "*"
+quarto = ">=1.9.38,<2"
+
+[pypi-dependencies]
