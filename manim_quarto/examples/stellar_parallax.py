@@ -6,87 +6,56 @@ Render with:
 This is a qualitative outreach visualization, not an astrometric model.
 """
 
-from manim import *
+from manim import VGroup, Scene, Dot, Line, ValueTracker, always_redraw, config
+from manim import UL, RIGHT, DOWN, LEFT, UP, linear
 import numpy as np
+import random
 
 config.background_color = "#0B1020"
 
 
 class StellarParallax(Scene):
     def construct(self):
-        title = Text("Stellar parallax: nearby stars shift", font_size=34)
-        title.to_edge(UP)
+        random.seed(3)
+        timer = ValueTracker(0)
+        stars = VGroup()
+        inc = ValueTracker(0)
 
-        rng = np.random.default_rng(4)
-        background_stars = VGroup()
-        for _ in range(95):
-            x = rng.uniform(-6.3, 6.3)
-            y = rng.uniform(-2.2, 2.7)
-            r = rng.uniform(0.012, 0.032)
-            opacity = rng.uniform(0.35, 0.9)
-            background_stars.add(
-                Dot(point=np.array([x, y, 0.0]), radius=r, color="#DDE7FF").set_opacity(opacity)
+        # add angle indicator
+        corner = Dot().to_corner(UL).shift(RIGHT * 0.7 + DOWN * 0.7).get_center()
+        length = 0.5
+        line1 = Line(corner, corner + length * RIGHT)
+        line2 = always_redraw(lambda: Line(
+            corner, corner + length * (np.cos(inc.get_value()) * RIGHT + np.sin(inc.get_value()) * UP)))
+        self.add(line1, line2)
+
+        for _ in range(120):
+            # Random starting position
+            x = random.uniform(-7, 7)
+            y = random.uniform(-4, 4)
+
+            # Random "depth": small = far, large = near
+            depth = random.uniform(0.1, 0.5)
+            star = Dot(point=[x, y, 0], radius=0.015 + 0.025 * depth)
+            start = star.get_center()
+
+            # Each star follows the same tracker, but nearby stars move more.
+            star.add_updater(
+                lambda mob, start=start, depth=depth: mob.move_to(
+                    start + depth * LEFT * np.sin(timer.get_value()) +
+                    depth * np.sin(inc.get_value()) * UP *
+                    np.cos(timer.get_value())
+                )
             )
+            stars.add(star)
 
-        grid = NumberPlane(
-            x_range=[-6, 6, 1],
-            y_range=[-3, 3, 1],
-            background_line_style={
-                "stroke_color": "#6C7A89",
-                "stroke_width": 1,
-                "stroke_opacity": 0.22,
-            },
-            axis_config={"stroke_opacity": 0},
-        )
-        grid.set_z_index(-2)
+        self.add(stars)
 
-        theta = ValueTracker(0)
-        base = np.array([0.0, 0.45, 0.0])
-
-        def apparent_shift():
-            return np.array(
-                [0.72 * np.cos(theta.get_value()), 0.25 * np.sin(theta.get_value()), 0.0]
-            )
-
-        parallax_ellipse = Ellipse(width=1.44, height=0.50, color="#FDB813")
-        parallax_ellipse.move_to(base).set_stroke(opacity=0.35, width=2)
-
-        nearby_star = always_redraw(
-            lambda: Dot(point=base + apparent_shift(), radius=0.09, color="#FDB813")
-        )
-        trail = TracedPath(nearby_star.get_center, stroke_color="#FDB813", stroke_width=3)
-
-        earth_center = np.array([-3.5, -2.55, 0.0])
-        earth_orbit = Ellipse(width=2.0, height=0.45, color="#6EC6FF")
-        earth_orbit.move_to(earth_center).set_stroke(opacity=0.45, width=2)
-        earth = always_redraw(
-            lambda: Dot(
-                point=earth_center
-                + np.array(
-                    [1.0 * np.cos(theta.get_value()), 0.225 * np.sin(theta.get_value()), 0.0]
-                ),
-                radius=0.07,
-                color="#6EC6FF",
-            )
+        self.play(
+            timer.animate.set_value(20 * np.pi),
+            inc.animate.set_value(np.deg2rad(90)),
+            run_time=12,
+            rate_func=linear
         )
 
-        labels = VGroup(
-            Text("distant background", font_size=22).to_corner(UR),
-            Text("nearby star", font_size=22, color="#FDB813").next_to(base, UP, buff=0.7),
-            Text("Earth baseline", font_size=20, color="#6EC6FF").next_to(
-                earth_orbit, DOWN
-            ),
-        )
-
-        explanation = Text(
-            "A tiny angular ellipse on the sky encodes distance.",
-            font_size=24,
-        )
-        explanation.to_corner(DL)
-
-        self.play(Write(title), FadeIn(grid), FadeIn(background_stars))
-        self.play(FadeIn(parallax_ellipse), FadeIn(earth_orbit), FadeIn(labels))
-        self.add(trail, nearby_star, earth)
-        self.play(theta.animate.set_value(TAU), run_time=6, rate_func=linear)
-        self.play(FadeIn(explanation, shift=UP * 0.2))
         self.wait()

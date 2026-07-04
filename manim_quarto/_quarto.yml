@@ -13,4 +13,6 @@ format:
     theme: default
     css: styles.css
     slide-number: true
+    scrollable: true
+    code-annotations: hover
     code-overflow: wrap

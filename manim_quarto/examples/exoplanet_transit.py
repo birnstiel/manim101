@@ -11,16 +11,39 @@ import numpy as np
 
 config.background_color = "#0B1020"
 
+p = 0.22
+STAR_RADIUS = 1.0
+PATH_SCALE = 1.65
+
 
 def relative_flux(phase: float) -> float:
-    """Toy transit model: flat-ish dip near phase zero."""
+    """Toy transit with contact timing and a flat-bottom full-overlap phase."""
     depth = 0.026
-    return 1.0 - depth * np.exp(-((phase / 0.34) ** 8))
+
+    # Same geometry as the animation: planet x-position = PATH_SCALE * phase.
+    x_sep = abs(PATH_SCALE * phase)
+    contact_sep = STAR_RADIUS + p
+    full_overlap_sep = STAR_RADIUS - p
+
+    # Outside contact there is no flux drop.
+    if x_sep >= contact_sep:
+        return 1.0
+
+    # Fully in front of the stellar disk -> flat-bottom transit.
+    if x_sep <= full_overlap_sep:
+        return 1.0 - depth
+
+    # In ingress/egress transition, blend smoothly between depth and baseline.
+    s = (x_sep - full_overlap_sep) / (contact_sep - full_overlap_sep)
+    smoothstep = 3 * s**2 - 2 * s**3
+
+    return 1.0 - depth * (1.0 - smoothstep)
 
 
 class ExoplanetTransit(Scene):
     def construct(self):
-        title = Text("Exoplanet transit: geometry -> light curve", font_size=32)
+        title = Text(
+            "Exoplanet transit: geometry -> light curve", font_size=32)
         title.to_edge(UP)
 
         phase = ValueTracker(-1.15)
@@ -42,9 +65,10 @@ class ExoplanetTransit(Scene):
                 fill_color="#111827",
                 fill_opacity=1.0,
                 stroke_width=1.2,
-            ).move_to(star.get_center() + RIGHT * (1.65 * phase.get_value()))
+            ).move_to(star.get_center() + RIGHT * (PATH_SCALE * phase.get_value()))
         )
-        planet_label = Text("planet", font_size=22).next_to(star, RIGHT, buff=1.15)
+        planet_label = Text("planet", font_size=22).next_to(
+            star, RIGHT, buff=1.15)
 
         axes = Axes(
             x_range=[-1.2, 1.2, 0.4],
@@ -64,7 +88,8 @@ class ExoplanetTransit(Scene):
         )
         moving_point = always_redraw(
             lambda: Dot(
-                point=axes.c2p(phase.get_value(), relative_flux(phase.get_value())),
+                point=axes.c2p(phase.get_value(),
+                               relative_flux(phase.get_value())),
                 radius=0.055,
                 color="#FFFFFF",
             )

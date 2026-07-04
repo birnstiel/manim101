@@ -6,6 +6,7 @@ platforms = ["osx-arm64"]
 version = "0.1.0"
 
 [tasks]
+install_kernel = "python -m ipykernel install --user --name pixi-$PIXI_PROJECT_NAME --display-name \"Pixi ($PIXI_PROJECT_NAME)\""
 
 [dependencies]
 python = ">=3.12,<3.13"
@@ -17,5 +18,6 @@ matplotlib = "*"
 astropy = "*"
 manim = "*"
 quarto = ">=1.9.38,<2"
-
-[pypi-dependencies]
+av = "*"
+ffmpeg = "*"
+libjxl = ">=0.11,<0.12"

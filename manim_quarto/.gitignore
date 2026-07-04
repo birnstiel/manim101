@@ -1,0 +1,5 @@
+/.quarto/
+__pycache__/
+examples/media/
+_site/
+media/
