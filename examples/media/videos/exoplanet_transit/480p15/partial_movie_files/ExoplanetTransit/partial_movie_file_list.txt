@@ -1,7 +1,0 @@
-# This file is used internally by FFMPEG.
-file 'file:/Users/birnstiel/CODES/code-coffee/my_stuff/manim101/manim_quarto/examples/media/videos/exoplanet_transit/480p15/partial_movie_files/ExoplanetTransit/2687366215_3764686954_223132457.mp4'
-file 'file:/Users/birnstiel/CODES/code-coffee/my_stuff/manim101/manim_quarto/examples/media/videos/exoplanet_transit/480p15/partial_movie_files/ExoplanetTransit/1108376956_2773886772_3526629742.mp4'
-file 'file:/Users/birnstiel/CODES/code-coffee/my_stuff/manim101/manim_quarto/examples/media/videos/exoplanet_transit/480p15/partial_movie_files/ExoplanetTransit/1108376956_346701243_3703708590.mp4'
-file 'file:/Users/birnstiel/CODES/code-coffee/my_stuff/manim101/manim_quarto/examples/media/videos/exoplanet_transit/480p15/partial_movie_files/ExoplanetTransit/1108376956_3058485102_759771819.mp4'
-file 'file:/Users/birnstiel/CODES/code-coffee/my_stuff/manim101/manim_quarto/examples/media/videos/exoplanet_transit/480p15/partial_movie_files/ExoplanetTransit/1108376956_3547296159_1330254106.mp4'
-file 'file:/Users/birnstiel/CODES/code-coffee/my_stuff/manim101/manim_quarto/examples/media/videos/exoplanet_transit/480p15/partial_movie_files/ExoplanetTransit/1108376956_2688965532_4035029354.mp4'

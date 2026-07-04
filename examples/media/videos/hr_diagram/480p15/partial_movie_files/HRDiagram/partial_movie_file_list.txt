@@ -1,8 +1,0 @@
-# This file is used internally by FFMPEG.
-file 'file:/Users/birnstiel/CODES/code-coffee/my_stuff/manim101/manim_quarto/examples/media/videos/hr_diagram/480p15/partial_movie_files/HRDiagram/2687366215_4014269068_223132457.mp4'
-file 'file:/Users/birnstiel/CODES/code-coffee/my_stuff/manim101/manim_quarto/examples/media/videos/hr_diagram/480p15/partial_movie_files/HRDiagram/1108376956_1833526135_1647390070.mp4'
-file 'file:/Users/birnstiel/CODES/code-coffee/my_stuff/manim101/manim_quarto/examples/media/videos/hr_diagram/480p15/partial_movie_files/HRDiagram/1108376956_179842183_2381727654.mp4'
-file 'file:/Users/birnstiel/CODES/code-coffee/my_stuff/manim101/manim_quarto/examples/media/videos/hr_diagram/480p15/partial_movie_files/HRDiagram/1108376956_1177058257_4088728021.mp4'
-file 'file:/Users/birnstiel/CODES/code-coffee/my_stuff/manim101/manim_quarto/examples/media/videos/hr_diagram/480p15/partial_movie_files/HRDiagram/1108376956_1462636115_264031511.mp4'
-file 'file:/Users/birnstiel/CODES/code-coffee/my_stuff/manim101/manim_quarto/examples/media/videos/hr_diagram/480p15/partial_movie_files/HRDiagram/1108376956_3143318578_1204204927.mp4'
-file 'file:/Users/birnstiel/CODES/code-coffee/my_stuff/manim101/manim_quarto/examples/media/videos/hr_diagram/480p15/partial_movie_files/HRDiagram/1108376956_2688965532_342948800.mp4'

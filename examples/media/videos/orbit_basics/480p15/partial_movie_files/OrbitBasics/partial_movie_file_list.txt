@@ -1,6 +1,0 @@
-# This file is used internally by FFMPEG.
-file 'file:/Users/birnstiel/CODES/code-coffee/my_stuff/manim101/manim_quarto/examples/media/videos/orbit_basics/480p15/partial_movie_files/OrbitBasics/2687366215_4035388490_223132457.mp4'
-file 'file:/Users/birnstiel/CODES/code-coffee/my_stuff/manim101/manim_quarto/examples/media/videos/orbit_basics/480p15/partial_movie_files/OrbitBasics/1108376956_3168496896_1727653219.mp4'
-file 'file:/Users/birnstiel/CODES/code-coffee/my_stuff/manim101/manim_quarto/examples/media/videos/orbit_basics/480p15/partial_movie_files/OrbitBasics/1108376956_2147101720_1796871477.mp4'
-file 'file:/Users/birnstiel/CODES/code-coffee/my_stuff/manim101/manim_quarto/examples/media/videos/orbit_basics/480p15/partial_movie_files/OrbitBasics/1108376956_117497770_3317482738.mp4'
-file 'file:/Users/birnstiel/CODES/code-coffee/my_stuff/manim101/manim_quarto/examples/media/videos/orbit_basics/480p15/partial_movie_files/OrbitBasics/1108376956_2449613945_2545201456.mp4'
