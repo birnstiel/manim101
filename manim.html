@@ -542,7 +542,7 @@ Til Birnstiel
 </dd>
 <dt data-target-cell="annotated-cell-11" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-cell="annotated-cell-11" data-code-lines="16" data-code-annotation="4"><code>TracedPath</code> leaves a visible orbital history.</span>
+<span data-code-cell="annotated-cell-11" data-code-lines="16" data-code-annotation="4"><code>TracedPath</code> leaves a visible orbital history based on the <strong>function</strong> you pass. You can also set <code>dissipating_time</code> to fade the trail.</span>
 </dd>
 <dt data-target-cell="annotated-cell-11" data-target-annotation="5">5</dt>
 <dd>
@@ -652,49 +652,72 @@ Til Birnstiel
 </section>
 <section id="parallax-outreach-version" class="slide level2">
 <h2>Parallax: outreach version</h2>
-<p>This scene shows a nearby star shifting against distant background stars as Earth moves around the Sun.</p>
-<p>Render:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a></a><span class="bu">cd</span> examples</span>
-<span id="cb12-2"><a></a><span class="ex">manim</span> <span class="at">-pql</span> stellar_parallax.py StellarParallax</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This scene shows how nearby stars appear to shift as Earth moves around the Sun.</p>
 <p>The example is qualitative, not a full astrometric model.</p>
 </section>
 <section id="parallax-apparent-motion" class="slide level2">
 <h2>Parallax: apparent motion</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="annotated-cell-16"><pre class="sourceCode numberSource python code-annotation-code number-lines code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-16" data-target-annotation="1">1</button><span id="annotated-cell-16-1" class="code-annotation-target"><a href="#annotated-cell-16-1"></a>theta <span class="op">=</span> ValueTracker(<span class="dv">0</span>)</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-16" data-target-annotation="2">2</button><span id="annotated-cell-16-2" class="code-annotation-target"><a href="#annotated-cell-16-2"></a>base <span class="op">=</span> np.array([<span class="fl">0.0</span>, <span class="fl">0.45</span>, <span class="fl">0.0</span>])</span>
-<span id="annotated-cell-16-3"><a href="#annotated-cell-16-3"></a></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-16" data-target-annotation="3">3</button><span id="annotated-cell-16-4" class="code-annotation-target"><a href="#annotated-cell-16-4"></a><span class="kw">def</span> apparent_shift():</span>
-<span id="annotated-cell-16-5"><a href="#annotated-cell-16-5"></a>    <span class="cf">return</span> np.array([</span>
-<span id="annotated-cell-16-6"><a href="#annotated-cell-16-6"></a>        <span class="fl">0.72</span> <span class="op">*</span> np.cos(theta.get_value()),</span>
-<span id="annotated-cell-16-7"><a href="#annotated-cell-16-7"></a>        <span class="fl">0.25</span> <span class="op">*</span> np.sin(theta.get_value()),</span>
-<span id="annotated-cell-16-8"><a href="#annotated-cell-16-8"></a>        <span class="fl">0.0</span>,</span>
-<span id="annotated-cell-16-9"><a href="#annotated-cell-16-9"></a>    ])</span>
-<span id="annotated-cell-16-10"><a href="#annotated-cell-16-10"></a></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-16" data-target-annotation="4">4</button><span id="annotated-cell-16-11" class="code-annotation-target"><a href="#annotated-cell-16-11"></a>nearby_star <span class="op">=</span> always_redraw(</span>
-<span id="annotated-cell-16-12"><a href="#annotated-cell-16-12"></a>    <span class="kw">lambda</span>: Dot(point<span class="op">=</span>base <span class="op">+</span> apparent_shift(), radius<span class="op">=</span><span class="fl">0.09</span>, color<span class="op">=</span><span class="st">"#FDB813"</span>)</span>
-<span id="annotated-cell-16-13"><a href="#annotated-cell-16-13"></a>)</span>
-<span id="annotated-cell-16-14"><a href="#annotated-cell-16-14"></a>trail <span class="op">=</span> TracedPath(nearby_star.get_center, stroke_color<span class="op">=</span><span class="st">"#FDB813"</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<dl class="code-annotation-container-hidden code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-16" data-target-annotation="1">1</dt>
-<dd>
-<span data-code-cell="annotated-cell-16" data-code-lines="1" data-code-annotation="1"><code>theta</code> parameterizes Earth position through the year.</span>
-</dd>
-<dt data-target-cell="annotated-cell-16" data-target-annotation="2">2</dt>
-<dd>
-<span data-code-cell="annotated-cell-16" data-code-lines="2" data-code-annotation="2"><code>base</code> is the mean position of the nearby star on screen.</span>
-</dd>
-<dt data-target-cell="annotated-cell-16" data-target-annotation="3">3</dt>
-<dd>
-<span data-code-cell="annotated-cell-16" data-code-lines="4" data-code-annotation="3">Apparent shift models the parallax wobble.</span>
-</dd>
-<dt data-target-cell="annotated-cell-16" data-target-annotation="4">4</dt>
-<dd>
-<span data-code-cell="annotated-cell-16" data-code-lines="11" data-code-annotation="4">Redraw the star from the current shift and trace its path.</span>
-</dd>
-</dl>
-<div class="small">
-<p>File: <code>examples/stellar_parallax.py</code></p>
-</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a></a><span class="co">"""StellarParallax: apparent motion of a nearby star against distant stars.</span></span>
+<span id="cb12-2"><a></a></span>
+<span id="cb12-3"><a></a><span class="co">Render with:</span></span>
+<span id="cb12-4"><a></a><span class="co">    manim -pql stellar_parallax.py StellarParallax</span></span>
+<span id="cb12-5"><a></a></span>
+<span id="cb12-6"><a></a><span class="co">This is a qualitative outreach visualization, not an astrometric model.</span></span>
+<span id="cb12-7"><a></a><span class="co">"""</span></span>
+<span id="cb12-8"><a></a></span>
+<span id="cb12-9"><a></a><span class="im">from</span> manim <span class="im">import</span> VGroup, Scene, Dot, Line, ValueTracker, always_redraw, config</span>
+<span id="cb12-10"><a></a><span class="im">from</span> manim <span class="im">import</span> UL, RIGHT, DOWN, LEFT, UP, linear</span>
+<span id="cb12-11"><a></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb12-12"><a></a><span class="im">import</span> random</span>
+<span id="cb12-13"><a></a></span>
+<span id="cb12-14"><a></a>config.background_color <span class="op">=</span> <span class="st">"#0B1020"</span></span>
+<span id="cb12-15"><a></a></span>
+<span id="cb12-16"><a></a></span>
+<span id="cb12-17"><a></a><span class="kw">class</span> StellarParallax(Scene):</span>
+<span id="cb12-18"><a></a>    <span class="kw">def</span> construct(<span class="va">self</span>):</span>
+<span id="cb12-19"><a></a>        random.seed(<span class="dv">3</span>)</span>
+<span id="cb12-20"><a></a>        timer <span class="op">=</span> ValueTracker(<span class="dv">0</span>)</span>
+<span id="cb12-21"><a></a>        stars <span class="op">=</span> VGroup()</span>
+<span id="cb12-22"><a></a>        inc <span class="op">=</span> ValueTracker(<span class="dv">0</span>)</span>
+<span id="cb12-23"><a></a></span>
+<span id="cb12-24"><a></a>        <span class="co"># add angle indicator</span></span>
+<span id="cb12-25"><a></a>        corner <span class="op">=</span> Dot().to_corner(UL).shift(RIGHT <span class="op">*</span> <span class="fl">0.7</span> <span class="op">+</span> DOWN <span class="op">*</span> <span class="fl">0.7</span>).get_center()</span>
+<span id="cb12-26"><a></a>        length <span class="op">=</span> <span class="fl">0.5</span></span>
+<span id="cb12-27"><a></a>        line1 <span class="op">=</span> Line(corner, corner <span class="op">+</span> length <span class="op">*</span> RIGHT)</span>
+<span id="cb12-28"><a></a>        line2 <span class="op">=</span> always_redraw(<span class="kw">lambda</span>: Line(</span>
+<span id="cb12-29"><a></a>            corner, corner <span class="op">+</span> length <span class="op">*</span> (np.cos(inc.get_value()) <span class="op">*</span> RIGHT <span class="op">+</span> np.sin(inc.get_value()) <span class="op">*</span> UP)))</span>
+<span id="cb12-30"><a></a>        <span class="va">self</span>.add(line1, line2)</span>
+<span id="cb12-31"><a></a></span>
+<span id="cb12-32"><a></a>        <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">120</span>):</span>
+<span id="cb12-33"><a></a>            <span class="co"># Random starting position</span></span>
+<span id="cb12-34"><a></a>            x <span class="op">=</span> random.uniform(<span class="op">-</span><span class="dv">7</span>, <span class="dv">7</span>)</span>
+<span id="cb12-35"><a></a>            y <span class="op">=</span> random.uniform(<span class="op">-</span><span class="dv">4</span>, <span class="dv">4</span>)</span>
+<span id="cb12-36"><a></a></span>
+<span id="cb12-37"><a></a>            <span class="co"># Random "depth": small = far, large = near</span></span>
+<span id="cb12-38"><a></a>            depth <span class="op">=</span> random.uniform(<span class="fl">0.1</span>, <span class="fl">0.5</span>)</span>
+<span id="cb12-39"><a></a>            star <span class="op">=</span> Dot(point<span class="op">=</span>[x, y, <span class="dv">0</span>], radius<span class="op">=</span><span class="fl">0.015</span> <span class="op">+</span> <span class="fl">0.025</span> <span class="op">*</span> depth)</span>
+<span id="cb12-40"><a></a>            start <span class="op">=</span> star.get_center()</span>
+<span id="cb12-41"><a></a></span>
+<span id="cb12-42"><a></a>            <span class="co"># Each star follows the same tracker, but nearby stars move more.</span></span>
+<span id="cb12-43"><a></a>            star.add_updater(</span>
+<span id="cb12-44"><a></a>                <span class="kw">lambda</span> mob, start<span class="op">=</span>start, depth<span class="op">=</span>depth: mob.move_to(</span>
+<span id="cb12-45"><a></a>                    start <span class="op">+</span> depth <span class="op">*</span> LEFT <span class="op">*</span> np.sin(timer.get_value()) <span class="op">+</span></span>
+<span id="cb12-46"><a></a>                    depth <span class="op">*</span> np.sin(inc.get_value()) <span class="op">*</span> UP <span class="op">*</span></span>
+<span id="cb12-47"><a></a>                    np.cos(timer.get_value())</span>
+<span id="cb12-48"><a></a>                )</span>
+<span id="cb12-49"><a></a>            )</span>
+<span id="cb12-50"><a></a>            stars.add(star)</span>
+<span id="cb12-51"><a></a></span>
+<span id="cb12-52"><a></a>        <span class="va">self</span>.add(stars)</span>
+<span id="cb12-53"><a></a></span>
+<span id="cb12-54"><a></a>        <span class="va">self</span>.play(</span>
+<span id="cb12-55"><a></a>            timer.animate.set_value(<span class="dv">20</span> <span class="op">*</span> np.pi),</span>
+<span id="cb12-56"><a></a>            inc.animate.set_value(np.deg2rad(<span class="dv">90</span>)),</span>
+<span id="cb12-57"><a></a>            run_time<span class="op">=</span><span class="dv">12</span>,</span>
+<span id="cb12-58"><a></a>            rate_func<span class="op">=</span>linear</span>
+<span id="cb12-59"><a></a>        )</span>
+<span id="cb12-60"><a></a></span>
+<span id="cb12-61"><a></a>        <span class="va">self</span>.wait()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section></section>
 <section>
 <section id="example-4-h-r-diagram" class="title-slide slide level1 center">
@@ -716,35 +739,35 @@ Til Birnstiel
 </section>
 <section id="h-r-diagram-axes-and-point-groups" class="slide level2">
 <h2>H-R diagram: axes and point groups</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="annotated-cell-18"><pre class="sourceCode numberSource python code-annotation-code number-lines code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-18" data-target-annotation="1">1</button><span id="annotated-cell-18-1" class="code-annotation-target"><a href="#annotated-cell-18-1"></a>axes <span class="op">=</span> Axes(</span>
-<span id="annotated-cell-18-2"><a href="#annotated-cell-18-2"></a>    x_range<span class="op">=</span>[<span class="op">-</span><span class="fl">2.5</span>, <span class="fl">2.5</span>, <span class="dv">1</span>],</span>
-<span id="annotated-cell-18-3"><a href="#annotated-cell-18-3"></a>    y_range<span class="op">=</span>[<span class="op">-</span><span class="fl">4.2</span>, <span class="fl">4.2</span>, <span class="dv">2</span>],</span>
-<span id="annotated-cell-18-4"><a href="#annotated-cell-18-4"></a>    x_length<span class="op">=</span><span class="fl">7.2</span>,</span>
-<span id="annotated-cell-18-5"><a href="#annotated-cell-18-5"></a>    y_length<span class="op">=</span><span class="fl">4.6</span>,</span>
-<span id="annotated-cell-18-6"><a href="#annotated-cell-18-6"></a>    tips<span class="op">=</span><span class="va">False</span>,</span>
-<span id="annotated-cell-18-7"><a href="#annotated-cell-18-7"></a>)</span>
-<span id="annotated-cell-18-8"><a href="#annotated-cell-18-8"></a></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-18" data-target-annotation="2">2</button><span id="annotated-cell-18-9" class="code-annotation-target"><a href="#annotated-cell-18-9"></a>xs <span class="op">=</span> np.linspace(<span class="op">-</span><span class="fl">2.15</span>, <span class="fl">2.15</span>, <span class="dv">20</span>)</span>
-<span id="annotated-cell-18-10"><a href="#annotated-cell-18-10"></a>main_sequence <span class="op">=</span> VGroup(</span>
-<span id="annotated-cell-18-11"><a href="#annotated-cell-18-11"></a>    <span class="op">*</span>[</span>
-<span id="annotated-cell-18-12"><a href="#annotated-cell-18-12"></a>        dot_at(x, <span class="op">-</span><span class="fl">1.15</span> <span class="op">*</span> x <span class="op">+</span> <span class="fl">0.15</span> <span class="op">+</span> <span class="fl">0.20</span> <span class="op">*</span> np.sin(<span class="dv">3</span> <span class="op">*</span> x), star_color(x))</span>
-<span id="annotated-cell-18-13"><a href="#annotated-cell-18-13"></a>        <span class="cf">for</span> x <span class="kw">in</span> xs</span>
-<span id="annotated-cell-18-14"><a href="#annotated-cell-18-14"></a>    ]</span>
-<span id="annotated-cell-18-15"><a href="#annotated-cell-18-15"></a>)</span>
-<span id="annotated-cell-18-16"><a href="#annotated-cell-18-16"></a></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-18" data-target-annotation="3">3</button><span id="annotated-cell-18-17" class="code-annotation-target"><a href="#annotated-cell-18-17"></a><span class="va">self</span>.play(LaggedStart(<span class="op">*</span>[FadeIn(dot, scale<span class="op">=</span><span class="fl">0.5</span>) <span class="cf">for</span> dot <span class="kw">in</span> main_sequence]))</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="annotated-cell-17"><pre class="sourceCode numberSource python code-annotation-code number-lines code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-17" data-target-annotation="1">1</button><span id="annotated-cell-17-1" class="code-annotation-target"><a href="#annotated-cell-17-1"></a>axes <span class="op">=</span> Axes(</span>
+<span id="annotated-cell-17-2"><a href="#annotated-cell-17-2"></a>    x_range<span class="op">=</span>[<span class="op">-</span><span class="fl">2.5</span>, <span class="fl">2.5</span>, <span class="dv">1</span>],</span>
+<span id="annotated-cell-17-3"><a href="#annotated-cell-17-3"></a>    y_range<span class="op">=</span>[<span class="op">-</span><span class="fl">4.2</span>, <span class="fl">4.2</span>, <span class="dv">2</span>],</span>
+<span id="annotated-cell-17-4"><a href="#annotated-cell-17-4"></a>    x_length<span class="op">=</span><span class="fl">7.2</span>,</span>
+<span id="annotated-cell-17-5"><a href="#annotated-cell-17-5"></a>    y_length<span class="op">=</span><span class="fl">4.6</span>,</span>
+<span id="annotated-cell-17-6"><a href="#annotated-cell-17-6"></a>    tips<span class="op">=</span><span class="va">False</span>,</span>
+<span id="annotated-cell-17-7"><a href="#annotated-cell-17-7"></a>)</span>
+<span id="annotated-cell-17-8"><a href="#annotated-cell-17-8"></a></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-17" data-target-annotation="2">2</button><span id="annotated-cell-17-9" class="code-annotation-target"><a href="#annotated-cell-17-9"></a>xs <span class="op">=</span> np.linspace(<span class="op">-</span><span class="fl">2.15</span>, <span class="fl">2.15</span>, <span class="dv">20</span>)</span>
+<span id="annotated-cell-17-10"><a href="#annotated-cell-17-10"></a>main_sequence <span class="op">=</span> VGroup(</span>
+<span id="annotated-cell-17-11"><a href="#annotated-cell-17-11"></a>    <span class="op">*</span>[</span>
+<span id="annotated-cell-17-12"><a href="#annotated-cell-17-12"></a>        dot_at(x, <span class="op">-</span><span class="fl">1.15</span> <span class="op">*</span> x <span class="op">+</span> <span class="fl">0.15</span> <span class="op">+</span> <span class="fl">0.20</span> <span class="op">*</span> np.sin(<span class="dv">3</span> <span class="op">*</span> x), star_color(x))</span>
+<span id="annotated-cell-17-13"><a href="#annotated-cell-17-13"></a>        <span class="cf">for</span> x <span class="kw">in</span> xs</span>
+<span id="annotated-cell-17-14"><a href="#annotated-cell-17-14"></a>    ]</span>
+<span id="annotated-cell-17-15"><a href="#annotated-cell-17-15"></a>)</span>
+<span id="annotated-cell-17-16"><a href="#annotated-cell-17-16"></a></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-17" data-target-annotation="3">3</button><span id="annotated-cell-17-17" class="code-annotation-target"><a href="#annotated-cell-17-17"></a><span class="va">self</span>.play(LaggedStart(<span class="op">*</span>[FadeIn(dot, scale<span class="op">=</span><span class="fl">0.5</span>) <span class="cf">for</span> dot <span class="kw">in</span> main_sequence]))</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-18" data-target-annotation="1">1</dt>
+<dt data-target-cell="annotated-cell-17" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-18" data-code-lines="1" data-code-annotation="1">Set axes first so all later points have clear meaning.</span>
+<span data-code-cell="annotated-cell-17" data-code-lines="1" data-code-annotation="1">Set axes first so all later points have clear meaning.</span>
 </dd>
-<dt data-target-cell="annotated-cell-18" data-target-annotation="2">2</dt>
+<dt data-target-cell="annotated-cell-17" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-18" data-code-lines="9" data-code-annotation="2">Map sampled values into a stylized main sequence.</span>
+<span data-code-cell="annotated-cell-17" data-code-lines="9" data-code-annotation="2">Map sampled values into a stylized main sequence.</span>
 </dd>
-<dt data-target-cell="annotated-cell-18" data-target-annotation="3">3</dt>
+<dt data-target-cell="annotated-cell-17" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-18" data-code-lines="17" data-code-annotation="3"><code>LaggedStart</code> reveals structure progressively for narration.</span>
+<span data-code-cell="annotated-cell-17" data-code-lines="17" data-code-annotation="3"><code>LaggedStart</code> reveals structure progressively for narration.</span>
 </dd>
 </dl>
 <div class="small">
@@ -1127,7 +1150,7 @@ Til Birnstiel
         }
           var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
           var mailtoRegex = new RegExp(/^mailto:/);
-            var filterRegex = new RegExp('/' + window.location.host + '/');
+            var filterRegex = new RegExp("https:\/\/birnstiel\.github\.io\/manim101\/");
           var isInternal = (href) => {
               return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
           }
