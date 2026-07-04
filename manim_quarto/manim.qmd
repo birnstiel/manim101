@@ -345,7 +345,7 @@ self.play(angle.animate.set_value(TAU), run_time=6, rate_func=linear)  # <5>
 1. `ValueTracker` is the single time-dependent parameter.
 2. Encapsulate position logic in a function of the tracker.
 3. `always_redraw` keeps the planet synced with every frame.
-4. `TracedPath` leaves a visible orbital history.
+4. `TracedPath` leaves a visible orbital history based on the **function** you pass. You can also set `dissipating_time` to fade the trail.
 5. Animate the tracker to drive the whole system.
 
 ::: {.small}
@@ -424,44 +424,15 @@ self.wait()
 
 ## Parallax: outreach version
 
-This scene shows a nearby star shifting against distant background stars as Earth moves around the Sun.
-
-Render:
-
-```bash
-cd examples
-manim -pql stellar_parallax.py StellarParallax
-```
+This scene shows how nearby stars appear to shift as Earth moves around the Sun.
 
 The example is qualitative, not a full astrometric model.
 
 ## Parallax: apparent motion
 
 ```python
-theta = ValueTracker(0)  # <1>
-base = np.array([0.0, 0.45, 0.0])  # <2>
-
-def apparent_shift():  # <3>
-    return np.array([
-        0.72 * np.cos(theta.get_value()),
-        0.25 * np.sin(theta.get_value()),
-        0.0,
-    ])
-
-nearby_star = always_redraw(  # <4>
-    lambda: Dot(point=base + apparent_shift(), radius=0.09, color="#FDB813")
-)
-trail = TracedPath(nearby_star.get_center, stroke_color="#FDB813")
+{{< include examples/stellar_parallax.py >}}
 ```
-
-1. `theta` parameterizes Earth position through the year.
-2. `base` is the mean position of the nearby star on screen.
-3. Apparent shift models the parallax wobble.
-4. Redraw the star from the current shift and trace its path.
-
-::: {.small}
-File: `examples/stellar_parallax.py`
-:::
 
 # Example 4: H-R diagram
 
