@@ -1,0 +1,3 @@
+# This file is used internally by FFMPEG.
+file 'file:/Users/birnstiel/CODES/code-coffee/my_stuff/manim101/manim_quarto/examples/media/videos/stellar_parallax/480p15/partial_movie_files/StellarParallax/2687366215_304384537_369566310.mp4'
+file 'file:/Users/birnstiel/CODES/code-coffee/my_stuff/manim101/manim_quarto/examples/media/videos/stellar_parallax/480p15/partial_movie_files/StellarParallax/1108376956_2688965532_2344311880.mp4'

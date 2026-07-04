@@ -1,0 +1,170 @@
+[
+  {
+    "objectID": "manim.html#what-is-manim",
+    "href": "manim.html#what-is-manim",
+    "title": "Manim for Astro Visualizations",
+    "section": "What is Manim?",
+    "text": "What is Manim?\nManim is a Python library for programmatic animations.\n\n\nGood for:\n\nexplaining geometry and math\nmoving diagrams that stay precise\nreproducible outreach visuals\nanimations that can be version-controlled"
+  },
+  {
+    "objectID": "manim.html#core-idea",
+    "href": "manim.html#core-idea",
+    "title": "Manim for Astro Visualizations",
+    "section": "Core Idea",
+    "text": "Core Idea\n\nscene.py → Manim render → .mp4, .gif, or image\nObjects (Mobjects) live in a Scene. You create them, animate them, update them, and render frames."
+  },
+  {
+    "objectID": "manim.html#recommended-local-setup",
+    "href": "manim.html#recommended-local-setup",
+    "title": "Manim for Astro Visualizations",
+    "section": "Recommended local setup",
+    "text": "Recommended local setup\nUse a project environment so your animations are reproducible.\n# create a project folder\npixi init manim_env\ncd manim_env\n\n# add Manim to the local environment\npixi add manim\n\n# check the installation\npixi run manim checkhealth\nNote: there needs to be also a working LaTeX installation for some features, e.g., Text and MathTex and ffmpeg for video rendering.\n\nHere is the pixi.toml I used\n\n\n  \n  Show code\n  \n\n...\n[dependencies]\npython = \"&gt;=3.12,&lt;3.13\"\nnumpy = \"*\"\nscipy = \"*\"\njupyter = \"*\"\nipykernel = \"*\"\nmatplotlib = \"*\"\nastropy = \"*\"\nmanim = \"*\"\nquarto = \"&gt;=1.9.38,&lt;2\"\nav = \"*\"\nffmpeg = \"*\"\nlibjxl = \"&gt;=0.11,&lt;0.12\""
+  },
+  {
+    "objectID": "manim.html#rendering-basics",
+    "href": "manim.html#rendering-basics",
+    "title": "Manim for Astro Visualizations",
+    "section": "Rendering basics",
+    "text": "Rendering basics\nA Manim file contains one or more Scene classes.\nmanim -pql orbit_basics.py OrbitBasics\n\nUseful flags:\n\n\n\nFlag\nMeaning\n\n\n\n\n-p\nopen the video after rendering\n\n\n-ql\nlow quality, fast preview\n\n\n-qm\nmedium quality\n\n\n-qh\nhigh quality\n\n\n\n\n\nNote: there are also VS Code extensions or Jupyter magicks, see below."
+  },
+  {
+    "objectID": "manim.html#the-smallest-useful-scene",
+    "href": "manim.html#the-smallest-useful-scene",
+    "title": "Manim for Astro Visualizations",
+    "section": "The smallest useful scene",
+    "text": "The smallest useful scene\nfrom manim import *\n\nclass HelloOrbit(Scene):\n    def construct(self):\n1        star = Dot(ORIGIN, color=YELLOW)\n        orbit = Circle(radius=2.0, color=BLUE)\n        label = Text(\"orbit\", font_size=32).to_edge(UP)\n\n2        self.play(Write(label))\n        self.play(FadeIn(star), Create(orbit))\n        self.wait()\n\n1\n\nCreate static mobjects first so the scene geometry is explicit.\n\n2\n\nAnimate in short, readable steps (Write, then FadeIn/Create).\n\n\nA scene is just a Python class with a construct() method.\nTo render the scene from a Jupyter notebook, you can use this cell magic:\n%%manim -qm -v ERROR HelloOrbit\n\nclass HelloOrbit(Scene):\n..."
+  },
+  {
+    "objectID": "manim.html#three-concepts-you-will-use-often",
+    "href": "manim.html#three-concepts-you-will-use-often",
+    "title": "Manim for Astro Visualizations",
+    "section": "Three concepts you will use often",
+    "text": "Three concepts you will use often\n\n\n\nMobjects\nVisual objects:\nDot, Circle, Line, Text, Axes, VGroup   \n\n\n\nAnimations\nActions over time:\nCreate, FadeIn, Transform, MoveAlongPath, .animate\n\n\n\nUpdaters\nFrame-by-frame logic:\nValueTracker, always_redraw, TracedPath"
+  },
+  {
+    "objectID": "manim.html#creation-and-transformation",
+    "href": "manim.html#creation-and-transformation",
+    "title": "Manim for Astro Visualizations",
+    "section": "1. Creation and Transformation",
+    "text": "1. Creation and Transformation\nclass Basic(Scene):\n    def construct(self):\n        circle = Circle()\n        square = Square()\n\n        self.play(Create(circle))\n        self.play(Transform(circle, square))"
+  },
+  {
+    "objectID": "manim.html#moving-things",
+    "href": "manim.html#moving-things",
+    "title": "Manim for Astro Visualizations",
+    "section": "2. Moving things",
+    "text": "2. Moving things\nfrom manim.utils.rate_functions import ease_out_bounce\n\nclass Basic(Scene):\n    def construct(self):\n        circle = Circle().shift(4*LEFT)\n        square = Square()\n\n        self.play(Create(circle))\n1        self.play(circle.animate.shift(UP), run_time=4)\n2        self.play(circle.animate.move_to(UP))\n3        self.play(circle.animate.to_edge(LEFT, buff=0), rate_func=ease_out_bounce)\n4        self.play(Create(square), circle.animate.next_to(square, RIGHT))\n        self.wait()\n\n1\n\nshift by X, note the runtime argument\n\n2\n\nmove to X\n\n3\n\nto edge, usually there is some buffer space, being turned off here.\n\n4\n\nnext to (note the buffer)\n\n\n\nSee also:\n.shift(...)\n.move_to(...)\n.to_edge(...)\n.to_corner(...)\n.next_to(...)\n.align_to(...)\n.arrange(...)"
+  },
+  {
+    "objectID": "manim.html#changing-style",
+    "href": "manim.html#changing-style",
+    "title": "Manim for Astro Visualizations",
+    "section": "3. Changing Style",
+    "text": "3. Changing Style\nclass Basic(Scene):\n    def construct(self):\n        circle = Circle()\n        self.play(Create(circle))\n        self.play(circle.animate.set_color(RED).set_fill(RED, opacity=0.5))\n        self.wait()\n\nSee also:\n.set_color(...)\n.set_fill(...)\n.set_stroke(...)\n.set_opacity(...)\n.scale(...)\n.rotate(...)"
+  },
+  {
+    "objectID": "manim.html#valuetracker",
+    "href": "manim.html#valuetracker",
+    "title": "Manim for Astro Visualizations",
+    "section": "4. ValueTracker",
+    "text": "4. ValueTracker\nWe create a ValueTracker to hold a single time-dependent parameter. The always_redraw wrapper keeps the dots in sync with the tracker. Thus, tracker is the single variable that drives the whole animation.\nclass Basic(Scene):\n    def construct(self):\n        tracker = ValueTracker(0)\n\n        dot1 = always_redraw(\n            lambda: Dot().move_to(RIGHT * tracker.get_value())\n        )\n        dot2 = always_redraw(\n            lambda: Dot().move_to(LEFT * tracker.get_value())\n        )\n\n        self.add(dot1, dot2)\n        self.play(tracker.animate.set_value(3), run_time=3)\n        self.wait()\n        self.play(tracker.animate.set_value(5), run_time=3)"
+  },
+  {
+    "objectID": "manim.html#orbit-what-the-viewer-sees",
+    "href": "manim.html#orbit-what-the-viewer-sees",
+    "title": "Manim for Astro Visualizations",
+    "section": "Orbit: what the viewer sees",
+    "text": "Orbit: what the viewer sees\nA simple scene with:\n\na star at the origin\na circular orbit\na planet driven by an angle\na traced path\na radius vector that updates every frame\n\nRender:\ncd examples\nmanim -pql orbit_basics.py OrbitBasics"
+  },
+  {
+    "objectID": "manim.html#orbit-the-key-pattern",
+    "href": "manim.html#orbit-the-key-pattern",
+    "title": "Manim for Astro Visualizations",
+    "section": "Orbit: the key pattern",
+    "text": "Orbit: the key pattern\norbit_radius = 2.2\n1angle = ValueTracker(0)\n\n2def planet_position():\n    a = angle.get_value()\n    return orbit_radius * np.array([np.cos(a), np.sin(a), 0.0])\n\n3planet = always_redraw(\n    lambda: Dot(point=planet_position(), radius=0.09, color=\"#6EC6FF\")\n)\n\nradius_line = always_redraw(\n    lambda: Line(ORIGIN, planet_position(), color=\"#6EC6FF\")\n)\n\n4trail = TracedPath(planet.get_center, stroke_color=\"#6EC6FF\")\nself.add(radius_line, trail, planet)\n\n5self.play(angle.animate.set_value(TAU), run_time=6, rate_func=linear)\n\n1\n\nValueTracker is the single time-dependent parameter.\n\n2\n\nEncapsulate position logic in a function of the tracker.\n\n3\n\nalways_redraw keeps the planet synced with every frame.\n\n4\n\nTracedPath leaves a visible orbital history.\n\n5\n\nAnimate the tracker to drive the whole system.\n\n\n\nFile: examples/orbit_basics.py"
+  },
+  {
+    "objectID": "manim.html#transit-geometry-plus-light-curve",
+    "href": "manim.html#transit-geometry-plus-light-curve",
+    "title": "Manim for Astro Visualizations",
+    "section": "Transit: geometry plus light curve",
+    "text": "Transit: geometry plus light curve\nThis example connects two things students often see separately:\n\na planet crossing a stellar disk\na dip in relative flux\n\nRender:\ncd examples\nmanim -pql exoplanet_transit.py ExoplanetTransit"
+  },
+  {
+    "objectID": "manim.html#transit-toy-model-and-moving-point",
+    "href": "manim.html#transit-toy-model-and-moving-point",
+    "title": "Manim for Astro Visualizations",
+    "section": "Transit: toy model and moving point",
+    "text": "Transit: toy model and moving point\ndef relative_flux(phase: float) -&gt; float:\n    \"\"\"Toy transit model: flat-ish dip near phase zero.\"\"\"\n1    ...\n\n2phase = ValueTracker(-1.15)\n\n3curve = axes.plot(\n    relative_flux,\n    x_range=[-1.15, 1.15, 0.01],\n    color=\"#6EC6FF\",\n    stroke_width=4,\n)\n\n4moving_point = always_redraw(\n    lambda: Dot(\n        point=axes.c2p(phase.get_value(), relative_flux(phase.get_value())),\n        radius=0.055,\n        color=\"#FFFFFF\",\n    )\n)\n\n1\n\nAny function that takes the phase and returns a flux can be used.\n\n2\n\nA single phase tracker drives geometry and photometry.\n\n3\n\nPlot the full model once as the static context.\n\n4\n\nRedraw only the marker to show current phase/flux.\n\n\n\nFile: examples/exoplanet_transit.py"
+  },
+  {
+    "objectID": "manim.html#transit-animation",
+    "href": "manim.html#transit-animation",
+    "title": "Manim for Astro Visualizations",
+    "section": "Transit – Animation",
+    "text": "Transit – Animation\n1self.play(Write(title))\n2self.play(FadeIn(star), FadeIn(star_label), FadeIn(planet_label))\n3self.play(Create(axes), Write(x_label), Write(y_label), Create(curve))\n4self.add(planet, moving_point)\n5self.play(phase.animate.set_value(1.15), run_time=6, rate_func=linear)\nself.play(FadeIn(explanation, shift=UP * 0.2))\nself.wait()\n\n1\n\nThis is the fancy “writing” animation.\n\n2\n\nFade all those in at once\n\n3\n\nNext step: Create will animate a “build up” of the curve.\n\n4\n\nAdd will just appear them instantly\n\n5\n\nThe main animation: move the phase tracker from start to end. The always_redraw objects will follow along. The rate function linear is uniform motion."
+  },
+  {
+    "objectID": "manim.html#parallax-outreach-version",
+    "href": "manim.html#parallax-outreach-version",
+    "title": "Manim for Astro Visualizations",
+    "section": "Parallax: outreach version",
+    "text": "Parallax: outreach version\nThis scene shows a nearby star shifting against distant background stars as Earth moves around the Sun.\nRender:\ncd examples\nmanim -pql stellar_parallax.py StellarParallax\nThe example is qualitative, not a full astrometric model."
+  },
+  {
+    "objectID": "manim.html#parallax-apparent-motion",
+    "href": "manim.html#parallax-apparent-motion",
+    "title": "Manim for Astro Visualizations",
+    "section": "Parallax: apparent motion",
+    "text": "Parallax: apparent motion\n1theta = ValueTracker(0)\n2base = np.array([0.0, 0.45, 0.0])\n\n3def apparent_shift():\n    return np.array([\n        0.72 * np.cos(theta.get_value()),\n        0.25 * np.sin(theta.get_value()),\n        0.0,\n    ])\n\n4nearby_star = always_redraw(\n    lambda: Dot(point=base + apparent_shift(), radius=0.09, color=\"#FDB813\")\n)\ntrail = TracedPath(nearby_star.get_center, stroke_color=\"#FDB813\")\n\n1\n\ntheta parameterizes Earth position through the year.\n\n2\n\nbase is the mean position of the nearby star on screen.\n\n3\n\nApparent shift models the parallax wobble.\n\n4\n\nRedraw the star from the current shift and trace its path.\n\n\n\nFile: examples/stellar_parallax.py"
+  },
+  {
+    "objectID": "manim.html#h-r-diagram-animated-data-story",
+    "href": "manim.html#h-r-diagram-animated-data-story",
+    "title": "Manim for Astro Visualizations",
+    "section": "H-R diagram: animated data story",
+    "text": "H-R diagram: animated data story\nThe example uses stylized points, but the pattern works for real catalogs:\n\nload arrays\nmap values to axes\ngroup related points\nanimate the story in layers\n\nRender:\ncd examples\nmanim -pql hr_diagram.py HRDiagram"
+  },
+  {
+    "objectID": "manim.html#h-r-diagram-axes-and-point-groups",
+    "href": "manim.html#h-r-diagram-axes-and-point-groups",
+    "title": "Manim for Astro Visualizations",
+    "section": "H-R diagram: axes and point groups",
+    "text": "H-R diagram: axes and point groups\n1axes = Axes(\n    x_range=[-2.5, 2.5, 1],\n    y_range=[-4.2, 4.2, 2],\n    x_length=7.2,\n    y_length=4.6,\n    tips=False,\n)\n\n2xs = np.linspace(-2.15, 2.15, 20)\nmain_sequence = VGroup(\n    *[\n        dot_at(x, -1.15 * x + 0.15 + 0.20 * np.sin(3 * x), star_color(x))\n        for x in xs\n    ]\n)\n\n3self.play(LaggedStart(*[FadeIn(dot, scale=0.5) for dot in main_sequence]))\n\n1\n\nSet axes first so all later points have clear meaning.\n\n2\n\nMap sampled values into a stylized main sequence.\n\n3\n\nLaggedStart reveals structure progressively for narration.\n\n\n\nFile: examples/hr_diagram.py"
+  },
+  {
+    "objectID": "manim.html#h-r-diagram-next-steps-with-real-data",
+    "href": "manim.html#h-r-diagram-next-steps-with-real-data",
+    "title": "Manim for Astro Visualizations",
+    "section": "H-R diagram: next steps with real data",
+    "text": "H-R diagram: next steps with real data\nReplace the toy arrays with catalog data, for example:\n# sketch only: keep data loading separate from scene logic\nimport pandas as pd\n\ncatalog = pd.read_csv(\"nearby_stars.csv\")\ncolor = catalog[\"bp_rp\"].to_numpy()\nabs_mag = catalog[\"M_G\"].to_numpy()\n\npoints = VGroup(*[\n    Dot(axes.c2p(c, -m), radius=0.025)\n    for c, m in zip(color, abs_mag)\n])\n\n\n\nManim is not a replacement for scientific plotting. It is a presentation layer for explaining the plot."
+  },
+  {
+    "objectID": "manim.html#a-practical-workflow",
+    "href": "manim.html#a-practical-workflow",
+    "title": "Manim for Astro Visualizations",
+    "section": "A practical workflow",
+    "text": "A practical workflow\n\nSketch the story in one sentence.\nMake the static objects first.\nAdd one moving quantity with ValueTracker.\nUse always_redraw only where the object truly changes.\nRender with -ql until the timing works.\nRender final clips with -qh or -qk only at the end."
+  },
+  {
+    "objectID": "manim.html#debugging-tips",
+    "href": "manim.html#debugging-tips",
+    "title": "Manim for Astro Visualizations",
+    "section": "Debugging tips",
+    "text": "Debugging tips\n\nUse Text labels during development, remove later.\nKeep functions small: make_axes(), make_star_field(), make_light_curve().\nPrefer named variables over long one-line animations.\nIf rendering is slow, preview shorter segments or fewer points.\nAvoid LaTeX until the core animation works."
+  },
+  {
+    "objectID": "manim.html#what-to-try-after-code-coffee",
+    "href": "manim.html#what-to-try-after-code-coffee",
+    "title": "Manim for Astro Visualizations",
+    "section": "What to try after Code Coffee",
+    "text": "What to try after Code Coffee\n\nChange the orbit to an ellipse.\nAdd eccentric anomaly / true anomaly labels.\nAdd limb darkening to the transit example.\nLoad a real Gaia subset for the H-R diagram.\nExport a short animation for a lecture slide or outreach post.\n\n\n\n\nStart small: one scene, one moving parameter, one message."
+  },
+  {
+    "objectID": "manim.html#files-in-this-quarto-project",
+    "href": "manim.html#files-in-this-quarto-project",
+    "title": "Manim for Astro Visualizations",
+    "section": "Files in this Quarto project",
+    "text": "Files in this Quarto project\nmanim_quarto/\n├── _quarto.yml\n├── manim.qmd\n├── styles.css\n├── README.md\n└── examples/\n    ├── orbit_basics.py\n    ├── exoplanet_transit.py\n    ├── stellar_parallax.py\n    ├── hr_diagram.py\n    └── render_all_examples.sh\nRender the slide deck:\nquarto preview manim.qmd\nRender the animations:\ncd examples\nbash render_all_examples.sh"
+  }
+]
