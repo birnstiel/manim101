@@ -1,7 +1,13 @@
 ---
 title: "Manim for Astro Visualizations"
 subtitle: "Code Coffee seminar"
-author: "Til Birnstiel"
+author: 'Til Birnstiel  <br/><br/>
+    <span style="font-size: x-large;">
+    Slides: birnstiel.github.io/manim101
+    <br>
+    Source: github.com/birnstiel/manim101
+    
+    </span>'
 execute:
   eval: false
 resources:
