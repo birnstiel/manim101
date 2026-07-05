@@ -14,5 +14,7 @@ format:
     css: styles.css
     slide-number: true
     scrollable: true
-    code-annotations: hover
+    code-annotations: select
     code-overflow: wrap
+revealjs-plugins:
+  - codefrag

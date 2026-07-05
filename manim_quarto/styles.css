@@ -66,6 +66,11 @@
 .reveal details .sourceCode pre {
   margin: 0;
 }
+.reveal #moving-things .code-copy-button {
+  opacity: 1 !important;
+  visibility: visible !important;
+  z-index: 20;
+}
 .reveal .subtitle {
   color: #9fd5ee;
 }
@@ -115,6 +120,10 @@
 }
 .reveal .columns {
   gap: 1.2em;
+}
+.reveal .flush-list ol {
+  margin-left: 0;
+  padding-left: 1.1em;
 }
 .reveal img {
   border-radius: 16px;

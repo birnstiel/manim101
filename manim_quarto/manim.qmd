@@ -202,7 +202,7 @@ Frame-by-frame logic:
 
 # Basic Examples
 
-## **1. Creation and Transformation**
+## 1. Creation and Transformation
 
 ```python
 class Basic(Scene):
@@ -215,7 +215,7 @@ class Basic(Scene):
 ```
 
 ## 2. Moving things
-
+  
 ```python
 from manim.utils.rate_functions import ease_out_bounce
 
@@ -225,19 +225,19 @@ class Basic(Scene):
         square = Square()
 
         self.play(Create(circle))
-        self.play(circle.animate.shift(UP), run_time=4) # <1>
-        self.play(circle.animate.move_to(UP)) # <2>
-        self.play(circle.animate.to_edge(LEFT, buff=0), rate_func=ease_out_bounce) # <3>
-        self.play(Create(square), circle.animate.next_to(square, RIGHT)) # <4>
+        self.play(circle.animate.shift(UP), run_time=4)  # <1>
+        self.play(circle.animate.move_to(UP))  # <2>
+        self.play(
+            circle.animate.to_edge(DOWN, buff=0),  # <3>
+            rate_func=ease_out_bounce)
+        self.play(Create(square), circle.animate.next_to(square, RIGHT))  # <4>
         self.wait()
-
 ```
 1. shift by X, note the runtime argument
 2. move to X
 3. to edge, usually there is some buffer space, being turned off here.
 4. next to (note the buffer)
 
-::: {.fragment}
 
 **See also:**
 
@@ -250,7 +250,6 @@ class Basic(Scene):
 .align_to(...)
 .arrange(...)
 ```
-:::
 
 
 ## 3. Changing Style
@@ -300,6 +299,69 @@ class Basic(Scene):
         self.play(tracker.animate.set_value(5), run_time=3)
 ```
 
+## 5. Updater
+
+We can also use an updater to move the dots. The updater is called every frame, and the `dt` argument is the time since the last frame. This is a more general approach than `ValueTracker`, but it requires more care to avoid runaway motion.
+
+```{.python code-line-numbers="7-8|13-14|17|18"}
+class Basic(Scene):
+    def construct(self):
+
+        dot1 = Dot().move_to(RIGHT)
+        dot2 = Dot().move_to(LEFT)
+
+        def move_right(mob, dt):  # <1>
+            mob.shift(2 * dt * RIGHT)
+            
+        def move_left(mob, dt):
+            mob.shift(2 * dt * LEFT)
+
+        dot1.add_updater(move_right)  # <2>
+        dot2.add_updater(move_left)
+
+        self.add(dot1, dot2)
+        self.wait()   # <3>
+        dot1.clear_updaters() #<4>
+        self.wait()
+```
+1. The function takes the mobject and the time delta since the last frame.
+2. Add the updater to the mobject.
+3. The dots will move while the scene is waiting, even if no animation is running.
+4. Clear the updater to stop the motion.
+
+## 6. VGroup
+
+A `VGroup` is a collection of mobjects that can be treated as a single object. You can move, scale, or rotate the group, and all the members will follow.
+
+```{.python code-line-numbers="13-14|18|23"}
+class C2PExample(Scene):
+    def construct(self):
+        axes = Axes(
+            x_range=[0, 10, 1],
+            y_range=[0, 100, 20],
+            x_length=7,
+            y_length=4,
+            axis_config={"include_numbers": True},
+        )
+
+        axes.to_edge(DOWN)
+
+        point = axes.c2p(4, 60) # <1>
+        dot = Dot(point, color=YELLOW)
+
+        label = Text("(4, 60)", font_size=24).next_to(dot, UR)
+
+        vg = VGroup(axes, dot, label) # <2>
+
+        self.play(Create(axes))
+        self.play(FadeIn(dot), Write(label))
+        self.wait()
+        self.play(vg.animate.shift(UP), run_time=2) # <3>
+```
+1. Convert coordinates to points in the scene using `c2p`.
+2. Create a `VGroup` to treat the axes, dot, and label as a single object.
+3. Move the whole group up, and all members will follow. Moving the axes would not move the label and dot, so we group them together.
+
 # Advanced Example 1: Orbit basics
 ## Orbit: what the viewer sees
 
@@ -318,39 +380,22 @@ cd examples
 manim -pql orbit_basics.py OrbitBasics
 ```
 
+
 ## Orbit: the key pattern
-
-```python
-orbit_radius = 2.2
-angle = ValueTracker(0)  # <1>
-
-def planet_position():  # <2>
-    a = angle.get_value()
-    return orbit_radius * np.array([np.cos(a), np.sin(a), 0.0])
-
-planet = always_redraw(  # <3>
-    lambda: Dot(point=planet_position(), radius=0.09, color="#6EC6FF")
-)
-
-radius_line = always_redraw(
-    lambda: Line(ORIGIN, planet_position(), color="#6EC6FF")
-)
-
-trail = TracedPath(planet.get_center, stroke_color="#6EC6FF")  # <4>
-self.add(radius_line, trail, planet)
-
-self.play(angle.animate.set_value(TAU), run_time=6, rate_func=linear)  # <5>
-```
-
-1. `ValueTracker` is the single time-dependent parameter.
-2. Encapsulate position logic in a function of the tracker.
-3. `always_redraw` keeps the planet synced with every frame.
-4. `TracedPath` leaves a visible orbital history based on the **function** you pass. You can also set `dissipating_time` to fade the trail.
-5. Animate the tracker to drive the whole system.
 
 ::: {.small}
 File: `examples/orbit_basics.py`
 :::
+
+```{.python code-line-numbers="20-21|32-34|36-38|44-45|57-59"}
+{{< include examples/orbit_basics.py >}}
+```
+1. `ValueTracker` is the single time-dependent parameter.
+2. Encapsulate the `ValueTracker` in a function to compute positions.
+3. `always_redraw` keeps the planet synced with every frame.
+4. `TracedPath` leaves a visible orbital history based on the **function** you pass. You can also set `dissipating_time` to fade the trail.
+5. Animate the tracker to drive the whole system.
+
 
 # Example 2: Exoplanet transit
 
@@ -358,8 +403,10 @@ File: `examples/orbit_basics.py`
 
 This example connects two things students often see separately:
 
+::: {.flush-list}
 1. a planet crossing a stellar disk
 2. a dip in relative flux
+:::
 
 Render:
 
@@ -434,134 +481,16 @@ The example is qualitative, not a full astrometric model.
 {{< include examples/stellar_parallax.py >}}
 ```
 
-# Example 4: H-R diagram
+# Summary
 
-## H-R diagram: animated data story
+- `manim` is a powerful tool for creating precise, reproducible animations in Python.
 
-The example uses stylized points, but the pattern works for real catalogs:
+- By understanding the core concepts of `Mobjects`, Animations, and Updaters, you can create complex visualizations that effectively communicate mathematical and astronomical ideas.
 
-1. load arrays
-2. map values to axes
-3. group related points
-4. animate the story in layers
+- It does not take away the work of **creating** the content, but it makes it easier to animate a plot with **high-quality animations**.
 
-Render:
-
-```bash
-cd examples
-manim -pql hr_diagram.py HRDiagram
-```
-
-## H-R diagram: axes and point groups
-
-```python
-axes = Axes(  # <1>
-    x_range=[-2.5, 2.5, 1],
-    y_range=[-4.2, 4.2, 2],
-    x_length=7.2,
-    y_length=4.6,
-    tips=False,
-)
-
-xs = np.linspace(-2.15, 2.15, 20)  # <2>
-main_sequence = VGroup(
-    *[
-        dot_at(x, -1.15 * x + 0.15 + 0.20 * np.sin(3 * x), star_color(x))
-        for x in xs
-    ]
-)
-
-self.play(LaggedStart(*[FadeIn(dot, scale=0.5) for dot in main_sequence]))  # <3>
-```
-
-1. Set axes first so all later points have clear meaning.
-2. Map sampled values into a stylized main sequence.
-3. `LaggedStart` reveals structure progressively for narration.
-
-::: {.small}
-File: `examples/hr_diagram.py`
+::: {.fragment .section-label}
+Let me know what you created with Manim!
+<br/>
+Happy to chat and share.
 :::
-
-## H-R diagram: next steps with real data
-
-Replace the toy arrays with catalog data, for example:
-
-```python
-# sketch only: keep data loading separate from scene logic
-import pandas as pd
-
-catalog = pd.read_csv("nearby_stars.csv")
-color = catalog["bp_rp"].to_numpy()
-abs_mag = catalog["M_G"].to_numpy()
-
-points = VGroup(*[
-    Dot(axes.c2p(c, -m), radius=0.025)
-    for c, m in zip(color, abs_mag)
-])
-```
-
-::: {.callout}
-Manim is not a replacement for scientific plotting. It is a presentation layer for explaining the plot.
-:::
-
-# How to structure your own animation
-
-## A practical workflow
-
-1. Sketch the story in one sentence.
-2. Make the static objects first.
-3. Add one moving quantity with `ValueTracker`.
-4. Use `always_redraw` only where the object truly changes.
-5. Render with `-ql` until the timing works.
-6. Render final clips with `-qh` or `-qk` only at the end.
-
-## Debugging tips
-
-- Use `Text` labels during development, remove later.
-- Keep functions small: `make_axes()`, `make_star_field()`, `make_light_curve()`.
-- Prefer named variables over long one-line animations.
-- If rendering is slow, preview shorter segments or fewer points.
-- Avoid LaTeX until the core animation works.
-
-# Wrap-up
-
-## What to try after Code Coffee
-
-- Change the orbit to an ellipse.
-- Add eccentric anomaly / true anomaly labels.
-- Add limb darkening to the transit example.
-- Load a real Gaia subset for the H-R diagram.
-- Export a short animation for a lecture slide or outreach post.
-
-::: {.callout}
-Start small: one scene, one moving parameter, one message.
-:::
-
-## Files in this Quarto project
-
-```text
-manim_quarto/
-├── _quarto.yml
-├── manim.qmd
-├── styles.css
-├── README.md
-└── examples/
-    ├── orbit_basics.py
-    ├── exoplanet_transit.py
-    ├── stellar_parallax.py
-    ├── hr_diagram.py
-    └── render_all_examples.sh
-```
-
-Render the slide deck:
-
-```bash
-quarto preview manim.qmd
-```
-
-Render the animations:
-
-```bash
-cd examples
-bash render_all_examples.sh
-```
