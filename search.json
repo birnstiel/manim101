@@ -53,7 +53,7 @@
     "href": "manim.html#moving-things",
     "title": "Manim for Astro Visualizations",
     "section": "2. Moving things",
-    "text": "2. Moving things\nfrom manim.utils.rate_functions import ease_out_bounce\n\nclass Basic(Scene):\n    def construct(self):\n        circle = Circle().shift(4*LEFT)\n        square = Square()\n\n        self.play(Create(circle))\n1        self.play(circle.animate.shift(UP), run_time=4)\n2        self.play(circle.animate.move_to(UP))\n3        self.play(circle.animate.to_edge(LEFT, buff=0), rate_func=ease_out_bounce)\n4        self.play(Create(square), circle.animate.next_to(square, RIGHT))\n        self.wait()\n\n1\n\nshift by X, note the runtime argument\n\n2\n\nmove to X\n\n3\n\nto edge, usually there is some buffer space, being turned off here.\n\n4\n\nnext to (note the buffer)\n\n\n\nSee also:\n.shift(...)\n.move_to(...)\n.to_edge(...)\n.to_corner(...)\n.next_to(...)\n.align_to(...)\n.arrange(...)"
+    "text": "2. Moving things\nfrom manim.utils.rate_functions import ease_out_bounce\n\nclass Basic(Scene):\n    def construct(self):\n        circle = Circle().shift(4*LEFT)\n        square = Square()\n\n        self.play(Create(circle))\n1        self.play(circle.animate.shift(UP), run_time=4)\n2        self.play(circle.animate.move_to(UP))\n        self.play(\n3            circle.animate.to_edge(DOWN, buff=0),\n            rate_func=ease_out_bounce)\n4        self.play(Create(square), circle.animate.next_to(square, RIGHT))\n        self.wait()\n\n1\n\nshift by X, note the runtime argument\n\n2\n\nmove to X\n\n3\n\nto edge, usually there is some buffer space, being turned off here.\n\n4\n\nnext to (note the buffer)\n\n\nSee also:\n.shift(...)\n.move_to(...)\n.to_edge(...)\n.to_corner(...)\n.next_to(...)\n.align_to(...)\n.arrange(...)"
   },
   {
     "objectID": "manim.html#changing-style",
@@ -70,6 +70,20 @@
     "text": "4. ValueTracker\nWe create a ValueTracker to hold a single time-dependent parameter. The always_redraw wrapper keeps the dots in sync with the tracker. Thus, tracker is the single variable that drives the whole animation.\nclass Basic(Scene):\n    def construct(self):\n        tracker = ValueTracker(0)\n\n        dot1 = always_redraw(\n            lambda: Dot().move_to(RIGHT * tracker.get_value())\n        )\n        dot2 = always_redraw(\n            lambda: Dot().move_to(LEFT * tracker.get_value())\n        )\n\n        self.add(dot1, dot2)\n        self.play(tracker.animate.set_value(3), run_time=3)\n        self.wait()\n        self.play(tracker.animate.set_value(5), run_time=3)"
   },
   {
+    "objectID": "manim.html#updater",
+    "href": "manim.html#updater",
+    "title": "Manim for Astro Visualizations",
+    "section": "5. Updater",
+    "text": "5. Updater\nWe can also use an updater to move the dots. The updater is called every frame, and the dt argument is the time since the last frame. This is a more general approach than ValueTracker, but it requires more care to avoid runaway motion.\nclass Basic(Scene):\n    def construct(self):\n\n        dot1 = Dot().move_to(RIGHT)\n        dot2 = Dot().move_to(LEFT)\n\n1        def move_right(mob, dt):\n            mob.shift(2 * dt * RIGHT)\n            \n        def move_left(mob, dt):\n            mob.shift(2 * dt * LEFT)\n\n2        dot1.add_updater(move_right)\n        dot2.add_updater(move_left)\n\n        self.add(dot1, dot2)\n3        self.wait()\n4        dot1.clear_updaters()\n        self.wait()\n\n1\n\nThe function takes the mobject and the time delta since the last frame.\n\n2\n\nAdd the updater to the mobject.\n\n3\n\nThe dots will move while the scene is waiting, even if no animation is running.\n\n4\n\nClear the updater to stop the motion."
+  },
+  {
+    "objectID": "manim.html#vgroup",
+    "href": "manim.html#vgroup",
+    "title": "Manim for Astro Visualizations",
+    "section": "6. VGroup",
+    "text": "6. VGroup\nA VGroup is a collection of mobjects that can be treated as a single object. You can move, scale, or rotate the group, and all the members will follow.\nclass C2PExample(Scene):\n    def construct(self):\n        axes = Axes(\n            x_range=[0, 10, 1],\n            y_range=[0, 100, 20],\n            x_length=7,\n            y_length=4,\n            axis_config={\"include_numbers\": True},\n        )\n\n        axes.to_edge(DOWN)\n\n1        point = axes.c2p(4, 60)\n        dot = Dot(point, color=YELLOW)\n\n        label = Text(\"(4, 60)\", font_size=24).next_to(dot, UR)\n\n2        vg = VGroup(axes, dot, label)\n\n        self.play(Create(axes))\n        self.play(FadeIn(dot), Write(label))\n        self.wait()\n3        self.play(vg.animate.shift(UP), run_time=2)\n\n1\n\nConvert coordinates to points in the scene using c2p.\n\n2\n\nCreate a VGroup to treat the axes, dot, and label as a single object.\n\n3\n\nMove the whole group up, and all members will follow. Moving the axes would not move the label and dot, so we group them together."
+  },
+  {
     "objectID": "manim.html#orbit-what-the-viewer-sees",
     "href": "manim.html#orbit-what-the-viewer-sees",
     "title": "Manim for Astro Visualizations",
@@ -81,14 +95,14 @@
     "href": "manim.html#orbit-the-key-pattern",
     "title": "Manim for Astro Visualizations",
     "section": "Orbit: the key pattern",
-    "text": "Orbit: the key pattern\norbit_radius = 2.2\n1angle = ValueTracker(0)\n\n2def planet_position():\n    a = angle.get_value()\n    return orbit_radius * np.array([np.cos(a), np.sin(a), 0.0])\n\n3planet = always_redraw(\n    lambda: Dot(point=planet_position(), radius=0.09, color=\"#6EC6FF\")\n)\n\nradius_line = always_redraw(\n    lambda: Line(ORIGIN, planet_position(), color=\"#6EC6FF\")\n)\n\n4trail = TracedPath(planet.get_center, stroke_color=\"#6EC6FF\")\nself.add(radius_line, trail, planet)\n\n5self.play(angle.animate.set_value(TAU), run_time=6, rate_func=linear)\n\n1\n\nValueTracker is the single time-dependent parameter.\n\n2\n\nEncapsulate position logic in a function of the tracker.\n\n3\n\nalways_redraw keeps the planet synced with every frame.\n\n4\n\nTracedPath leaves a visible orbital history based on the function you pass. You can also set dissipating_time to fade the trail.\n\n5\n\nAnimate the tracker to drive the whole system.\n\n\n\nFile: examples/orbit_basics.py"
+    "text": "Orbit: the key pattern\n\nFile: examples/orbit_basics.py\n\n\"\"\"OrbitBasics: a first astronomy-themed Manim scene.\n\nRender with:\n    manim -pql orbit_basics.py OrbitBasics\n\nThis example avoids LaTeX so it should work with a minimal Manim install.\n\"\"\"\n\nfrom manim import *\nimport numpy as np\n\nconfig.background_color = \"#0B1020\"\n\n\nclass OrbitBasics(Scene):\n    def construct(self):\n        title = Text(\"Orbit from simple geometry\", font_size=34)\n        title.to_edge(UP)\n\n        orbit_radius = 2.2\n1        angle = ValueTracker(0)\n\n        orbit = Circle(radius=orbit_radius, color=\"#6C7A89\", stroke_width=2)\n        sun = Dot(ORIGIN, radius=0.22, color=\"#FDB813\")\n        sun_glow = Circle(\n            radius=0.38,\n            color=\"#FDB813\",\n            stroke_width=6,\n            stroke_opacity=0.25,\n        )\n\n2        def planet_position():\n            a = angle.get_value()\n            return orbit_radius * np.array([np.cos(a), np.sin(a), 0.0])\n\n3        planet = always_redraw(\n            lambda: Dot(point=planet_position(), radius=0.09, color=\"#6EC6FF\")\n        )\n        radius_line = always_redraw(\n            lambda: Line(ORIGIN, planet_position(),\n                         color=\"#6EC6FF\", stroke_width=2, stroke_opacity=0.55,\n                         )\n        )\n4        trail = TracedPath(planet.get_center,\n                           stroke_color=\"#6EC6FF\", stroke_width=3)\n\n        note = Text(\n            \"A ValueTracker drives the angle;\\nobjects update every frame.\",\n            font_size=24,\n            line_spacing=0.9,\n        )\n        note.to_corner(DL)\n\n        self.play(Write(title))\n        self.play(Create(orbit), FadeIn(sun_glow), FadeIn(sun))\n        self.add(radius_line, trail, planet)\n        self.play(\n5            angle.animate.set_value(TAU),\n            run_time=6, rate_func=linear)\n        self.play(FadeIn(note, shift=UP * 0.2))\n        self.wait()\n\n1\n\nValueTracker is the single time-dependent parameter.\n\n2\n\nEncapsulate the ValueTracker in a function to compute positions.\n\n3\n\nalways_redraw keeps the planet synced with every frame.\n\n4\n\nTracedPath leaves a visible orbital history based on the function you pass. You can also set dissipating_time to fade the trail.\n\n5\n\nAnimate the tracker to drive the whole system."
   },
   {
     "objectID": "manim.html#transit-geometry-plus-light-curve",
     "href": "manim.html#transit-geometry-plus-light-curve",
     "title": "Manim for Astro Visualizations",
     "section": "Transit: geometry plus light curve",
-    "text": "Transit: geometry plus light curve\nThis example connects two things students often see separately:\n\na planet crossing a stellar disk\na dip in relative flux\n\nRender:\ncd examples\nmanim -pql exoplanet_transit.py ExoplanetTransit"
+    "text": "Transit: geometry plus light curve\nThis example connects two things students often see separately:\n\n\na planet crossing a stellar disk\na dip in relative flux\n\n\nRender:\ncd examples\nmanim -pql exoplanet_transit.py ExoplanetTransit"
   },
   {
     "objectID": "manim.html#transit-toy-model-and-moving-point",
@@ -117,54 +131,5 @@
     "title": "Manim for Astro Visualizations",
     "section": "Parallax: apparent motion",
     "text": "Parallax: apparent motion\n\"\"\"StellarParallax: apparent motion of a nearby star against distant stars.\n\nRender with:\n    manim -pql stellar_parallax.py StellarParallax\n\nThis is a qualitative outreach visualization, not an astrometric model.\n\"\"\"\n\nfrom manim import VGroup, Scene, Dot, Line, ValueTracker, always_redraw, config\nfrom manim import UL, RIGHT, DOWN, LEFT, UP, linear\nimport numpy as np\nimport random\n\nconfig.background_color = \"#0B1020\"\n\n\nclass StellarParallax(Scene):\n    def construct(self):\n        random.seed(3)\n        timer = ValueTracker(0)\n        stars = VGroup()\n        inc = ValueTracker(0)\n\n        # add angle indicator\n        corner = Dot().to_corner(UL).shift(RIGHT * 0.7 + DOWN * 0.7).get_center()\n        length = 0.5\n        line1 = Line(corner, corner + length * RIGHT)\n        line2 = always_redraw(lambda: Line(\n            corner, corner + length * (np.cos(inc.get_value()) * RIGHT + np.sin(inc.get_value()) * UP)))\n        self.add(line1, line2)\n\n        for _ in range(120):\n            # Random starting position\n            x = random.uniform(-7, 7)\n            y = random.uniform(-4, 4)\n\n            # Random \"depth\": small = far, large = near\n            depth = random.uniform(0.1, 0.5)\n            star = Dot(point=[x, y, 0], radius=0.015 + 0.025 * depth)\n            start = star.get_center()\n\n            # Each star follows the same tracker, but nearby stars move more.\n            star.add_updater(\n                lambda mob, start=start, depth=depth: mob.move_to(\n                    start + depth * LEFT * np.sin(timer.get_value()) +\n                    depth * np.sin(inc.get_value()) * UP *\n                    np.cos(timer.get_value())\n                )\n            )\n            stars.add(star)\n\n        self.add(stars)\n\n        self.play(\n            timer.animate.set_value(20 * np.pi),\n            inc.animate.set_value(np.deg2rad(90)),\n            run_time=12,\n            rate_func=linear\n        )\n\n        self.wait()"
-  },
-  {
-    "objectID": "manim.html#h-r-diagram-animated-data-story",
-    "href": "manim.html#h-r-diagram-animated-data-story",
-    "title": "Manim for Astro Visualizations",
-    "section": "H-R diagram: animated data story",
-    "text": "H-R diagram: animated data story\nThe example uses stylized points, but the pattern works for real catalogs:\n\nload arrays\nmap values to axes\ngroup related points\nanimate the story in layers\n\nRender:\ncd examples\nmanim -pql hr_diagram.py HRDiagram"
-  },
-  {
-    "objectID": "manim.html#h-r-diagram-axes-and-point-groups",
-    "href": "manim.html#h-r-diagram-axes-and-point-groups",
-    "title": "Manim for Astro Visualizations",
-    "section": "H-R diagram: axes and point groups",
-    "text": "H-R diagram: axes and point groups\n1axes = Axes(\n    x_range=[-2.5, 2.5, 1],\n    y_range=[-4.2, 4.2, 2],\n    x_length=7.2,\n    y_length=4.6,\n    tips=False,\n)\n\n2xs = np.linspace(-2.15, 2.15, 20)\nmain_sequence = VGroup(\n    *[\n        dot_at(x, -1.15 * x + 0.15 + 0.20 * np.sin(3 * x), star_color(x))\n        for x in xs\n    ]\n)\n\n3self.play(LaggedStart(*[FadeIn(dot, scale=0.5) for dot in main_sequence]))\n\n1\n\nSet axes first so all later points have clear meaning.\n\n2\n\nMap sampled values into a stylized main sequence.\n\n3\n\nLaggedStart reveals structure progressively for narration.\n\n\n\nFile: examples/hr_diagram.py"
-  },
-  {
-    "objectID": "manim.html#h-r-diagram-next-steps-with-real-data",
-    "href": "manim.html#h-r-diagram-next-steps-with-real-data",
-    "title": "Manim for Astro Visualizations",
-    "section": "H-R diagram: next steps with real data",
-    "text": "H-R diagram: next steps with real data\nReplace the toy arrays with catalog data, for example:\n# sketch only: keep data loading separate from scene logic\nimport pandas as pd\n\ncatalog = pd.read_csv(\"nearby_stars.csv\")\ncolor = catalog[\"bp_rp\"].to_numpy()\nabs_mag = catalog[\"M_G\"].to_numpy()\n\npoints = VGroup(*[\n    Dot(axes.c2p(c, -m), radius=0.025)\n    for c, m in zip(color, abs_mag)\n])\n\n\n\nManim is not a replacement for scientific plotting. It is a presentation layer for explaining the plot."
-  },
-  {
-    "objectID": "manim.html#a-practical-workflow",
-    "href": "manim.html#a-practical-workflow",
-    "title": "Manim for Astro Visualizations",
-    "section": "A practical workflow",
-    "text": "A practical workflow\n\nSketch the story in one sentence.\nMake the static objects first.\nAdd one moving quantity with ValueTracker.\nUse always_redraw only where the object truly changes.\nRender with -ql until the timing works.\nRender final clips with -qh or -qk only at the end."
-  },
-  {
-    "objectID": "manim.html#debugging-tips",
-    "href": "manim.html#debugging-tips",
-    "title": "Manim for Astro Visualizations",
-    "section": "Debugging tips",
-    "text": "Debugging tips\n\nUse Text labels during development, remove later.\nKeep functions small: make_axes(), make_star_field(), make_light_curve().\nPrefer named variables over long one-line animations.\nIf rendering is slow, preview shorter segments or fewer points.\nAvoid LaTeX until the core animation works."
-  },
-  {
-    "objectID": "manim.html#what-to-try-after-code-coffee",
-    "href": "manim.html#what-to-try-after-code-coffee",
-    "title": "Manim for Astro Visualizations",
-    "section": "What to try after Code Coffee",
-    "text": "What to try after Code Coffee\n\nChange the orbit to an ellipse.\nAdd eccentric anomaly / true anomaly labels.\nAdd limb darkening to the transit example.\nLoad a real Gaia subset for the H-R diagram.\nExport a short animation for a lecture slide or outreach post.\n\n\n\n\nStart small: one scene, one moving parameter, one message."
-  },
-  {
-    "objectID": "manim.html#files-in-this-quarto-project",
-    "href": "manim.html#files-in-this-quarto-project",
-    "title": "Manim for Astro Visualizations",
-    "section": "Files in this Quarto project",
-    "text": "Files in this Quarto project\nmanim_quarto/\n├── _quarto.yml\n├── manim.qmd\n├── styles.css\n├── README.md\n└── examples/\n    ├── orbit_basics.py\n    ├── exoplanet_transit.py\n    ├── stellar_parallax.py\n    ├── hr_diagram.py\n    └── render_all_examples.sh\nRender the slide deck:\nquarto preview manim.qmd\nRender the animations:\ncd examples\nbash render_all_examples.sh"
   }
 ]

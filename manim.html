@@ -103,6 +103,7 @@
   <link href="site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="site_libs/revealjs/plugin/reveal-js-codefrag/codefrag.css" rel="stylesheet">
   <link href="site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
   <style type="text/css">
     .reveal div.sourceCode {
@@ -397,7 +398,7 @@ Til Birnstiel
 
 </section>
 <section id="creation-and-transformation" class="slide level2">
-<h2><strong>1. Creation and Transformation</strong></h2>
+<h2>1. Creation and Transformation</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a></a><span class="kw">class</span> Basic(Scene):</span>
 <span id="cb5-2"><a></a>    <span class="kw">def</span> construct(<span class="va">self</span>):</span>
 <span id="cb5-3"><a></a>        circle <span class="op">=</span> Circle()</span>
@@ -418,9 +419,11 @@ Til Birnstiel
 <span id="annotated-cell-7-8"><a href="#annotated-cell-7-8"></a>        <span class="va">self</span>.play(Create(circle))</span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="1">1</button><span id="annotated-cell-7-9" class="code-annotation-target"><a href="#annotated-cell-7-9"></a>        <span class="va">self</span>.play(circle.animate.shift(UP), run_time<span class="op">=</span><span class="dv">4</span>)</span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="2">2</button><span id="annotated-cell-7-10" class="code-annotation-target"><a href="#annotated-cell-7-10"></a>        <span class="va">self</span>.play(circle.animate.move_to(UP))</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="3">3</button><span id="annotated-cell-7-11" class="code-annotation-target"><a href="#annotated-cell-7-11"></a>        <span class="va">self</span>.play(circle.animate.to_edge(LEFT, buff<span class="op">=</span><span class="dv">0</span>), rate_func<span class="op">=</span>ease_out_bounce)</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="4">4</button><span id="annotated-cell-7-12" class="code-annotation-target"><a href="#annotated-cell-7-12"></a>        <span class="va">self</span>.play(Create(square), circle.animate.next_to(square, RIGHT))</span>
-<span id="annotated-cell-7-13"><a href="#annotated-cell-7-13"></a>        <span class="va">self</span>.wait()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="annotated-cell-7-11"><a href="#annotated-cell-7-11"></a>        <span class="va">self</span>.play(</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="3">3</button><span id="annotated-cell-7-12" class="code-annotation-target"><a href="#annotated-cell-7-12"></a>            circle.animate.to_edge(DOWN, buff<span class="op">=</span><span class="dv">0</span>),</span>
+<span id="annotated-cell-7-13"><a href="#annotated-cell-7-13"></a>            rate_func<span class="op">=</span>ease_out_bounce)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="4">4</button><span id="annotated-cell-7-14" class="code-annotation-target"><a href="#annotated-cell-7-14"></a>        <span class="va">self</span>.play(Create(square), circle.animate.next_to(square, RIGHT))</span>
+<span id="annotated-cell-7-15"><a href="#annotated-cell-7-15"></a>        <span class="va">self</span>.wait()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-7" data-target-annotation="1">1</dt>
 <dd>
@@ -432,14 +435,13 @@ Til Birnstiel
 </dd>
 <dt data-target-cell="annotated-cell-7" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-7" data-code-lines="11" data-code-annotation="3">to edge, usually there is some buffer space, being turned off here.</span>
+<span data-code-cell="annotated-cell-7" data-code-lines="12" data-code-annotation="3">to edge, usually there is some buffer space, being turned off here.</span>
 </dd>
 <dt data-target-cell="annotated-cell-7" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-cell="annotated-cell-7" data-code-lines="12" data-code-annotation="4">next to (note the buffer)</span>
+<span data-code-cell="annotated-cell-7" data-code-lines="14" data-code-annotation="4">next to (note the buffer)</span>
 </dd>
 </dl>
-<div class="fragment">
 <p><strong>See also:</strong></p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a></a>.shift(...)</span>
 <span id="cb6-2"><a></a>.move_to(...)</span>
@@ -448,7 +450,6 @@ Til Birnstiel
 <span id="cb6-5"><a></a>.next_to(...)</span>
 <span id="cb6-6"><a></a>.align_to(...)</span>
 <span id="cb6-7"><a></a>.arrange(...)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
 </section>
 <section id="changing-style" class="slide level2">
 <h2>3. Changing Style</h2>
@@ -486,6 +487,88 @@ Til Birnstiel
 <span id="cb9-13"><a></a>        <span class="va">self</span>.play(tracker.animate.set_value(<span class="dv">3</span>), run_time<span class="op">=</span><span class="dv">3</span>)</span>
 <span id="cb9-14"><a></a>        <span class="va">self</span>.wait()</span>
 <span id="cb9-15"><a></a>        <span class="va">self</span>.play(tracker.animate.set_value(<span class="dv">5</span>), run_time<span class="op">=</span><span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="updater" class="slide level2">
+<h2>5. Updater</h2>
+<p>We can also use an updater to move the dots. The updater is called every frame, and the <code>dt</code> argument is the time since the last frame. This is a more general approach than <code>ValueTracker</code>, but it requires more care to avoid runaway motion.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="annotated-cell-11" data-code-line-numbers="7-8|13-14|17|18"><pre class="sourceCode numberSource python code-annotation-code number-lines code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-11-1"><a href="#annotated-cell-11-1"></a><span class="kw">class</span> Basic(Scene):</span>
+<span id="annotated-cell-11-2"><a href="#annotated-cell-11-2"></a>    <span class="kw">def</span> construct(<span class="va">self</span>):</span>
+<span id="annotated-cell-11-3"><a href="#annotated-cell-11-3"></a></span>
+<span id="annotated-cell-11-4"><a href="#annotated-cell-11-4"></a>        dot1 <span class="op">=</span> Dot().move_to(RIGHT)</span>
+<span id="annotated-cell-11-5"><a href="#annotated-cell-11-5"></a>        dot2 <span class="op">=</span> Dot().move_to(LEFT)</span>
+<span id="annotated-cell-11-6"><a href="#annotated-cell-11-6"></a></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="1">1</button><span id="annotated-cell-11-7" class="code-annotation-target"><a href="#annotated-cell-11-7"></a>        <span class="kw">def</span> move_right(mob, dt):</span>
+<span id="annotated-cell-11-8"><a href="#annotated-cell-11-8"></a>            mob.shift(<span class="dv">2</span> <span class="op">*</span> dt <span class="op">*</span> RIGHT)</span>
+<span id="annotated-cell-11-9"><a href="#annotated-cell-11-9"></a>            </span>
+<span id="annotated-cell-11-10"><a href="#annotated-cell-11-10"></a>        <span class="kw">def</span> move_left(mob, dt):</span>
+<span id="annotated-cell-11-11"><a href="#annotated-cell-11-11"></a>            mob.shift(<span class="dv">2</span> <span class="op">*</span> dt <span class="op">*</span> LEFT)</span>
+<span id="annotated-cell-11-12"><a href="#annotated-cell-11-12"></a></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="2">2</button><span id="annotated-cell-11-13" class="code-annotation-target"><a href="#annotated-cell-11-13"></a>        dot1.add_updater(move_right)</span>
+<span id="annotated-cell-11-14"><a href="#annotated-cell-11-14"></a>        dot2.add_updater(move_left)</span>
+<span id="annotated-cell-11-15"><a href="#annotated-cell-11-15"></a></span>
+<span id="annotated-cell-11-16"><a href="#annotated-cell-11-16"></a>        <span class="va">self</span>.add(dot1, dot2)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="3">3</button><span id="annotated-cell-11-17" class="code-annotation-target"><a href="#annotated-cell-11-17"></a>        <span class="va">self</span>.wait()</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="4">4</button><span id="annotated-cell-11-18" class="code-annotation-target"><a href="#annotated-cell-11-18"></a>        dot1.clear_updaters()</span>
+<span id="annotated-cell-11-19"><a href="#annotated-cell-11-19"></a>        <span class="va">self</span>.wait()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-11" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-11" data-code-lines="7" data-code-annotation="1">The function takes the mobject and the time delta since the last frame.</span>
+</dd>
+<dt data-target-cell="annotated-cell-11" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-11" data-code-lines="13" data-code-annotation="2">Add the updater to the mobject.</span>
+</dd>
+<dt data-target-cell="annotated-cell-11" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-11" data-code-lines="17" data-code-annotation="3">The dots will move while the scene is waiting, even if no animation is running.</span>
+</dd>
+<dt data-target-cell="annotated-cell-11" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-11" data-code-lines="18" data-code-annotation="4">Clear the updater to stop the motion.</span>
+</dd>
+</dl>
+</section>
+<section id="vgroup" class="slide level2">
+<h2>6. VGroup</h2>
+<p>A <code>VGroup</code> is a collection of mobjects that can be treated as a single object. You can move, scale, or rotate the group, and all the members will follow.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="annotated-cell-12" data-code-line-numbers="13-14|18|23"><pre class="sourceCode numberSource python code-annotation-code number-lines code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-12-1"><a href="#annotated-cell-12-1"></a><span class="kw">class</span> C2PExample(Scene):</span>
+<span id="annotated-cell-12-2"><a href="#annotated-cell-12-2"></a>    <span class="kw">def</span> construct(<span class="va">self</span>):</span>
+<span id="annotated-cell-12-3"><a href="#annotated-cell-12-3"></a>        axes <span class="op">=</span> Axes(</span>
+<span id="annotated-cell-12-4"><a href="#annotated-cell-12-4"></a>            x_range<span class="op">=</span>[<span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">1</span>],</span>
+<span id="annotated-cell-12-5"><a href="#annotated-cell-12-5"></a>            y_range<span class="op">=</span>[<span class="dv">0</span>, <span class="dv">100</span>, <span class="dv">20</span>],</span>
+<span id="annotated-cell-12-6"><a href="#annotated-cell-12-6"></a>            x_length<span class="op">=</span><span class="dv">7</span>,</span>
+<span id="annotated-cell-12-7"><a href="#annotated-cell-12-7"></a>            y_length<span class="op">=</span><span class="dv">4</span>,</span>
+<span id="annotated-cell-12-8"><a href="#annotated-cell-12-8"></a>            axis_config<span class="op">=</span>{<span class="st">"include_numbers"</span>: <span class="va">True</span>},</span>
+<span id="annotated-cell-12-9"><a href="#annotated-cell-12-9"></a>        )</span>
+<span id="annotated-cell-12-10"><a href="#annotated-cell-12-10"></a></span>
+<span id="annotated-cell-12-11"><a href="#annotated-cell-12-11"></a>        axes.to_edge(DOWN)</span>
+<span id="annotated-cell-12-12"><a href="#annotated-cell-12-12"></a></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-12" data-target-annotation="1">1</button><span id="annotated-cell-12-13" class="code-annotation-target"><a href="#annotated-cell-12-13"></a>        point <span class="op">=</span> axes.c2p(<span class="dv">4</span>, <span class="dv">60</span>)</span>
+<span id="annotated-cell-12-14"><a href="#annotated-cell-12-14"></a>        dot <span class="op">=</span> Dot(point, color<span class="op">=</span>YELLOW)</span>
+<span id="annotated-cell-12-15"><a href="#annotated-cell-12-15"></a></span>
+<span id="annotated-cell-12-16"><a href="#annotated-cell-12-16"></a>        label <span class="op">=</span> Text(<span class="st">"(4, 60)"</span>, font_size<span class="op">=</span><span class="dv">24</span>).next_to(dot, UR)</span>
+<span id="annotated-cell-12-17"><a href="#annotated-cell-12-17"></a></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-12" data-target-annotation="2">2</button><span id="annotated-cell-12-18" class="code-annotation-target"><a href="#annotated-cell-12-18"></a>        vg <span class="op">=</span> VGroup(axes, dot, label)</span>
+<span id="annotated-cell-12-19"><a href="#annotated-cell-12-19"></a></span>
+<span id="annotated-cell-12-20"><a href="#annotated-cell-12-20"></a>        <span class="va">self</span>.play(Create(axes))</span>
+<span id="annotated-cell-12-21"><a href="#annotated-cell-12-21"></a>        <span class="va">self</span>.play(FadeIn(dot), Write(label))</span>
+<span id="annotated-cell-12-22"><a href="#annotated-cell-12-22"></a>        <span class="va">self</span>.wait()</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-12" data-target-annotation="3">3</button><span id="annotated-cell-12-23" class="code-annotation-target"><a href="#annotated-cell-12-23"></a>        <span class="va">self</span>.play(vg.animate.shift(UP), run_time<span class="op">=</span><span class="dv">2</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-12" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-12" data-code-lines="13" data-code-annotation="1">Convert coordinates to points in the scene using <code>c2p</code>.</span>
+</dd>
+<dt data-target-cell="annotated-cell-12" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-12" data-code-lines="18" data-code-annotation="2">Create a <code>VGroup</code> to treat the axes, dot, and label as a single object.</span>
+</dd>
+<dt data-target-cell="annotated-cell-12" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-12" data-code-lines="23" data-code-annotation="3">Move the whole group up, and all members will follow. Moving the axes would not move the label and dot, so we group them together.</span>
+</dd>
+</dl>
 </section></section>
 <section>
 <section id="advanced-example-1-orbit-basics" class="title-slide slide level1 center">
@@ -508,50 +591,92 @@ Til Birnstiel
 </section>
 <section id="orbit-the-key-pattern" class="slide level2">
 <h2>Orbit: the key pattern</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="annotated-cell-11"><pre class="sourceCode numberSource python code-annotation-code number-lines code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-11-1"><a href="#annotated-cell-11-1"></a>orbit_radius <span class="op">=</span> <span class="fl">2.2</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="1">1</button><span id="annotated-cell-11-2" class="code-annotation-target"><a href="#annotated-cell-11-2"></a>angle <span class="op">=</span> ValueTracker(<span class="dv">0</span>)</span>
-<span id="annotated-cell-11-3"><a href="#annotated-cell-11-3"></a></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="2">2</button><span id="annotated-cell-11-4" class="code-annotation-target"><a href="#annotated-cell-11-4"></a><span class="kw">def</span> planet_position():</span>
-<span id="annotated-cell-11-5"><a href="#annotated-cell-11-5"></a>    a <span class="op">=</span> angle.get_value()</span>
-<span id="annotated-cell-11-6"><a href="#annotated-cell-11-6"></a>    <span class="cf">return</span> orbit_radius <span class="op">*</span> np.array([np.cos(a), np.sin(a), <span class="fl">0.0</span>])</span>
-<span id="annotated-cell-11-7"><a href="#annotated-cell-11-7"></a></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="3">3</button><span id="annotated-cell-11-8" class="code-annotation-target"><a href="#annotated-cell-11-8"></a>planet <span class="op">=</span> always_redraw(</span>
-<span id="annotated-cell-11-9"><a href="#annotated-cell-11-9"></a>    <span class="kw">lambda</span>: Dot(point<span class="op">=</span>planet_position(), radius<span class="op">=</span><span class="fl">0.09</span>, color<span class="op">=</span><span class="st">"#6EC6FF"</span>)</span>
-<span id="annotated-cell-11-10"><a href="#annotated-cell-11-10"></a>)</span>
-<span id="annotated-cell-11-11"><a href="#annotated-cell-11-11"></a></span>
-<span id="annotated-cell-11-12"><a href="#annotated-cell-11-12"></a>radius_line <span class="op">=</span> always_redraw(</span>
-<span id="annotated-cell-11-13"><a href="#annotated-cell-11-13"></a>    <span class="kw">lambda</span>: Line(ORIGIN, planet_position(), color<span class="op">=</span><span class="st">"#6EC6FF"</span>)</span>
-<span id="annotated-cell-11-14"><a href="#annotated-cell-11-14"></a>)</span>
-<span id="annotated-cell-11-15"><a href="#annotated-cell-11-15"></a></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="4">4</button><span id="annotated-cell-11-16" class="code-annotation-target"><a href="#annotated-cell-11-16"></a>trail <span class="op">=</span> TracedPath(planet.get_center, stroke_color<span class="op">=</span><span class="st">"#6EC6FF"</span>)</span>
-<span id="annotated-cell-11-17"><a href="#annotated-cell-11-17"></a><span class="va">self</span>.add(radius_line, trail, planet)</span>
-<span id="annotated-cell-11-18"><a href="#annotated-cell-11-18"></a></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="5">5</button><span id="annotated-cell-11-19" class="code-annotation-target"><a href="#annotated-cell-11-19"></a><span class="va">self</span>.play(angle.animate.set_value(TAU), run_time<span class="op">=</span><span class="dv">6</span>, rate_func<span class="op">=</span>linear)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<dl class="code-annotation-container-hidden code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-11" data-target-annotation="1">1</dt>
-<dd>
-<span data-code-cell="annotated-cell-11" data-code-lines="2" data-code-annotation="1"><code>ValueTracker</code> is the single time-dependent parameter.</span>
-</dd>
-<dt data-target-cell="annotated-cell-11" data-target-annotation="2">2</dt>
-<dd>
-<span data-code-cell="annotated-cell-11" data-code-lines="4" data-code-annotation="2">Encapsulate position logic in a function of the tracker.</span>
-</dd>
-<dt data-target-cell="annotated-cell-11" data-target-annotation="3">3</dt>
-<dd>
-<span data-code-cell="annotated-cell-11" data-code-lines="8" data-code-annotation="3"><code>always_redraw</code> keeps the planet synced with every frame.</span>
-</dd>
-<dt data-target-cell="annotated-cell-11" data-target-annotation="4">4</dt>
-<dd>
-<span data-code-cell="annotated-cell-11" data-code-lines="16" data-code-annotation="4"><code>TracedPath</code> leaves a visible orbital history based on the <strong>function</strong> you pass. You can also set <code>dissipating_time</code> to fade the trail.</span>
-</dd>
-<dt data-target-cell="annotated-cell-11" data-target-annotation="5">5</dt>
-<dd>
-<span data-code-cell="annotated-cell-11" data-code-lines="19" data-code-annotation="5">Animate the tracker to drive the whole system.</span>
-</dd>
-</dl>
 <div class="small">
 <p>File: <code>examples/orbit_basics.py</code></p>
 </div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="annotated-cell-14" data-code-line-numbers="20-21|32-34|36-38|44-45|57-59"><pre class="sourceCode numberSource python code-annotation-code number-lines code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-14-1"><a href="#annotated-cell-14-1"></a><span class="co">"""OrbitBasics: a first astronomy-themed Manim scene.</span></span>
+<span id="annotated-cell-14-2"><a href="#annotated-cell-14-2"></a></span>
+<span id="annotated-cell-14-3"><a href="#annotated-cell-14-3"></a><span class="co">Render with:</span></span>
+<span id="annotated-cell-14-4"><a href="#annotated-cell-14-4"></a><span class="co">    manim -pql orbit_basics.py OrbitBasics</span></span>
+<span id="annotated-cell-14-5"><a href="#annotated-cell-14-5"></a></span>
+<span id="annotated-cell-14-6"><a href="#annotated-cell-14-6"></a><span class="co">This example avoids LaTeX so it should work with a minimal Manim install.</span></span>
+<span id="annotated-cell-14-7"><a href="#annotated-cell-14-7"></a><span class="co">"""</span></span>
+<span id="annotated-cell-14-8"><a href="#annotated-cell-14-8"></a></span>
+<span id="annotated-cell-14-9"><a href="#annotated-cell-14-9"></a><span class="im">from</span> manim <span class="im">import</span> <span class="op">*</span></span>
+<span id="annotated-cell-14-10"><a href="#annotated-cell-14-10"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="annotated-cell-14-11"><a href="#annotated-cell-14-11"></a></span>
+<span id="annotated-cell-14-12"><a href="#annotated-cell-14-12"></a>config.background_color <span class="op">=</span> <span class="st">"#0B1020"</span></span>
+<span id="annotated-cell-14-13"><a href="#annotated-cell-14-13"></a></span>
+<span id="annotated-cell-14-14"><a href="#annotated-cell-14-14"></a></span>
+<span id="annotated-cell-14-15"><a href="#annotated-cell-14-15"></a><span class="kw">class</span> OrbitBasics(Scene):</span>
+<span id="annotated-cell-14-16"><a href="#annotated-cell-14-16"></a>    <span class="kw">def</span> construct(<span class="va">self</span>):</span>
+<span id="annotated-cell-14-17"><a href="#annotated-cell-14-17"></a>        title <span class="op">=</span> Text(<span class="st">"Orbit from simple geometry"</span>, font_size<span class="op">=</span><span class="dv">34</span>)</span>
+<span id="annotated-cell-14-18"><a href="#annotated-cell-14-18"></a>        title.to_edge(UP)</span>
+<span id="annotated-cell-14-19"><a href="#annotated-cell-14-19"></a></span>
+<span id="annotated-cell-14-20"><a href="#annotated-cell-14-20"></a>        orbit_radius <span class="op">=</span> <span class="fl">2.2</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-14" data-target-annotation="1">1</button><span id="annotated-cell-14-21" class="code-annotation-target"><a href="#annotated-cell-14-21"></a>        angle <span class="op">=</span> ValueTracker(<span class="dv">0</span>)</span>
+<span id="annotated-cell-14-22"><a href="#annotated-cell-14-22"></a></span>
+<span id="annotated-cell-14-23"><a href="#annotated-cell-14-23"></a>        orbit <span class="op">=</span> Circle(radius<span class="op">=</span>orbit_radius, color<span class="op">=</span><span class="st">"#6C7A89"</span>, stroke_width<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="annotated-cell-14-24"><a href="#annotated-cell-14-24"></a>        sun <span class="op">=</span> Dot(ORIGIN, radius<span class="op">=</span><span class="fl">0.22</span>, color<span class="op">=</span><span class="st">"#FDB813"</span>)</span>
+<span id="annotated-cell-14-25"><a href="#annotated-cell-14-25"></a>        sun_glow <span class="op">=</span> Circle(</span>
+<span id="annotated-cell-14-26"><a href="#annotated-cell-14-26"></a>            radius<span class="op">=</span><span class="fl">0.38</span>,</span>
+<span id="annotated-cell-14-27"><a href="#annotated-cell-14-27"></a>            color<span class="op">=</span><span class="st">"#FDB813"</span>,</span>
+<span id="annotated-cell-14-28"><a href="#annotated-cell-14-28"></a>            stroke_width<span class="op">=</span><span class="dv">6</span>,</span>
+<span id="annotated-cell-14-29"><a href="#annotated-cell-14-29"></a>            stroke_opacity<span class="op">=</span><span class="fl">0.25</span>,</span>
+<span id="annotated-cell-14-30"><a href="#annotated-cell-14-30"></a>        )</span>
+<span id="annotated-cell-14-31"><a href="#annotated-cell-14-31"></a></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-14" data-target-annotation="2">2</button><span id="annotated-cell-14-32" class="code-annotation-target"><a href="#annotated-cell-14-32"></a>        <span class="kw">def</span> planet_position():</span>
+<span id="annotated-cell-14-33"><a href="#annotated-cell-14-33"></a>            a <span class="op">=</span> angle.get_value()</span>
+<span id="annotated-cell-14-34"><a href="#annotated-cell-14-34"></a>            <span class="cf">return</span> orbit_radius <span class="op">*</span> np.array([np.cos(a), np.sin(a), <span class="fl">0.0</span>])</span>
+<span id="annotated-cell-14-35"><a href="#annotated-cell-14-35"></a></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-14" data-target-annotation="3">3</button><span id="annotated-cell-14-36" class="code-annotation-target"><a href="#annotated-cell-14-36"></a>        planet <span class="op">=</span> always_redraw(</span>
+<span id="annotated-cell-14-37"><a href="#annotated-cell-14-37"></a>            <span class="kw">lambda</span>: Dot(point<span class="op">=</span>planet_position(), radius<span class="op">=</span><span class="fl">0.09</span>, color<span class="op">=</span><span class="st">"#6EC6FF"</span>)</span>
+<span id="annotated-cell-14-38"><a href="#annotated-cell-14-38"></a>        )</span>
+<span id="annotated-cell-14-39"><a href="#annotated-cell-14-39"></a>        radius_line <span class="op">=</span> always_redraw(</span>
+<span id="annotated-cell-14-40"><a href="#annotated-cell-14-40"></a>            <span class="kw">lambda</span>: Line(ORIGIN, planet_position(),</span>
+<span id="annotated-cell-14-41"><a href="#annotated-cell-14-41"></a>                         color<span class="op">=</span><span class="st">"#6EC6FF"</span>, stroke_width<span class="op">=</span><span class="dv">2</span>, stroke_opacity<span class="op">=</span><span class="fl">0.55</span>,</span>
+<span id="annotated-cell-14-42"><a href="#annotated-cell-14-42"></a>                         )</span>
+<span id="annotated-cell-14-43"><a href="#annotated-cell-14-43"></a>        )</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-14" data-target-annotation="4">4</button><span id="annotated-cell-14-44" class="code-annotation-target"><a href="#annotated-cell-14-44"></a>        trail <span class="op">=</span> TracedPath(planet.get_center,</span>
+<span id="annotated-cell-14-45"><a href="#annotated-cell-14-45"></a>                           stroke_color<span class="op">=</span><span class="st">"#6EC6FF"</span>, stroke_width<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="annotated-cell-14-46"><a href="#annotated-cell-14-46"></a></span>
+<span id="annotated-cell-14-47"><a href="#annotated-cell-14-47"></a>        note <span class="op">=</span> Text(</span>
+<span id="annotated-cell-14-48"><a href="#annotated-cell-14-48"></a>            <span class="st">"A ValueTracker drives the angle;</span><span class="ch">\n</span><span class="st">objects update every frame."</span>,</span>
+<span id="annotated-cell-14-49"><a href="#annotated-cell-14-49"></a>            font_size<span class="op">=</span><span class="dv">24</span>,</span>
+<span id="annotated-cell-14-50"><a href="#annotated-cell-14-50"></a>            line_spacing<span class="op">=</span><span class="fl">0.9</span>,</span>
+<span id="annotated-cell-14-51"><a href="#annotated-cell-14-51"></a>        )</span>
+<span id="annotated-cell-14-52"><a href="#annotated-cell-14-52"></a>        note.to_corner(DL)</span>
+<span id="annotated-cell-14-53"><a href="#annotated-cell-14-53"></a></span>
+<span id="annotated-cell-14-54"><a href="#annotated-cell-14-54"></a>        <span class="va">self</span>.play(Write(title))</span>
+<span id="annotated-cell-14-55"><a href="#annotated-cell-14-55"></a>        <span class="va">self</span>.play(Create(orbit), FadeIn(sun_glow), FadeIn(sun))</span>
+<span id="annotated-cell-14-56"><a href="#annotated-cell-14-56"></a>        <span class="va">self</span>.add(radius_line, trail, planet)</span>
+<span id="annotated-cell-14-57"><a href="#annotated-cell-14-57"></a>        <span class="va">self</span>.play(</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-14" data-target-annotation="5">5</button><span id="annotated-cell-14-58" class="code-annotation-target"><a href="#annotated-cell-14-58"></a>            angle.animate.set_value(TAU),</span>
+<span id="annotated-cell-14-59"><a href="#annotated-cell-14-59"></a>            run_time<span class="op">=</span><span class="dv">6</span>, rate_func<span class="op">=</span>linear)</span>
+<span id="annotated-cell-14-60"><a href="#annotated-cell-14-60"></a>        <span class="va">self</span>.play(FadeIn(note, shift<span class="op">=</span>UP <span class="op">*</span> <span class="fl">0.2</span>))</span>
+<span id="annotated-cell-14-61"><a href="#annotated-cell-14-61"></a>        <span class="va">self</span>.wait()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-14" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-14" data-code-lines="21" data-code-annotation="1"><code>ValueTracker</code> is the single time-dependent parameter.</span>
+</dd>
+<dt data-target-cell="annotated-cell-14" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-14" data-code-lines="32" data-code-annotation="2">Encapsulate the <code>ValueTracker</code> in a function to compute positions.</span>
+</dd>
+<dt data-target-cell="annotated-cell-14" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-14" data-code-lines="36" data-code-annotation="3"><code>always_redraw</code> keeps the planet synced with every frame.</span>
+</dd>
+<dt data-target-cell="annotated-cell-14" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-14" data-code-lines="44" data-code-annotation="4"><code>TracedPath</code> leaves a visible orbital history based on the <strong>function</strong> you pass. You can also set <code>dissipating_time</code> to fade the trail.</span>
+</dd>
+<dt data-target-cell="annotated-cell-14" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-14" data-code-lines="58" data-code-annotation="5">Animate the tracker to drive the whole system.</span>
+</dd>
+</dl>
 </section></section>
 <section>
 <section id="example-2-exoplanet-transit" class="title-slide slide level1 center">
@@ -561,52 +686,54 @@ Til Birnstiel
 <section id="transit-geometry-plus-light-curve" class="slide level2 scrollable">
 <h2>Transit: geometry plus light curve</h2>
 <p>This example connects two things students often see separately:</p>
+<div class="flush-list">
 <ol type="1">
 <li>a planet crossing a stellar disk</li>
 <li>a dip in relative flux</li>
 </ol>
+</div>
 <p>Render:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a></a><span class="bu">cd</span> examples</span>
 <span id="cb11-2"><a></a><span class="ex">manim</span> <span class="at">-pql</span> exoplanet_transit.py ExoplanetTransit</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="transit-toy-model-and-moving-point" class="slide level2">
 <h2>Transit: toy model and moving point</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="annotated-cell-13"><pre class="sourceCode numberSource python code-annotation-code number-lines code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-13-1"><a href="#annotated-cell-13-1"></a><span class="kw">def</span> relative_flux(phase: <span class="bu">float</span>) <span class="op">-&gt;</span> <span class="bu">float</span>:</span>
-<span id="annotated-cell-13-2"><a href="#annotated-cell-13-2"></a>    <span class="co">"""Toy transit model: flat-ish dip near phase zero."""</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-13" data-target-annotation="1">1</button><span id="annotated-cell-13-3" class="code-annotation-target"><a href="#annotated-cell-13-3"></a>    ...</span>
-<span id="annotated-cell-13-4"><a href="#annotated-cell-13-4"></a></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-13" data-target-annotation="2">2</button><span id="annotated-cell-13-5" class="code-annotation-target"><a href="#annotated-cell-13-5"></a>phase <span class="op">=</span> ValueTracker(<span class="op">-</span><span class="fl">1.15</span>)</span>
-<span id="annotated-cell-13-6"><a href="#annotated-cell-13-6"></a></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-13" data-target-annotation="3">3</button><span id="annotated-cell-13-7" class="code-annotation-target"><a href="#annotated-cell-13-7"></a>curve <span class="op">=</span> axes.plot(</span>
-<span id="annotated-cell-13-8"><a href="#annotated-cell-13-8"></a>    relative_flux,</span>
-<span id="annotated-cell-13-9"><a href="#annotated-cell-13-9"></a>    x_range<span class="op">=</span>[<span class="op">-</span><span class="fl">1.15</span>, <span class="fl">1.15</span>, <span class="fl">0.01</span>],</span>
-<span id="annotated-cell-13-10"><a href="#annotated-cell-13-10"></a>    color<span class="op">=</span><span class="st">"#6EC6FF"</span>,</span>
-<span id="annotated-cell-13-11"><a href="#annotated-cell-13-11"></a>    stroke_width<span class="op">=</span><span class="dv">4</span>,</span>
-<span id="annotated-cell-13-12"><a href="#annotated-cell-13-12"></a>)</span>
-<span id="annotated-cell-13-13"><a href="#annotated-cell-13-13"></a></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-13" data-target-annotation="4">4</button><span id="annotated-cell-13-14" class="code-annotation-target"><a href="#annotated-cell-13-14"></a>moving_point <span class="op">=</span> always_redraw(</span>
-<span id="annotated-cell-13-15"><a href="#annotated-cell-13-15"></a>    <span class="kw">lambda</span>: Dot(</span>
-<span id="annotated-cell-13-16"><a href="#annotated-cell-13-16"></a>        point<span class="op">=</span>axes.c2p(phase.get_value(), relative_flux(phase.get_value())),</span>
-<span id="annotated-cell-13-17"><a href="#annotated-cell-13-17"></a>        radius<span class="op">=</span><span class="fl">0.055</span>,</span>
-<span id="annotated-cell-13-18"><a href="#annotated-cell-13-18"></a>        color<span class="op">=</span><span class="st">"#FFFFFF"</span>,</span>
-<span id="annotated-cell-13-19"><a href="#annotated-cell-13-19"></a>    )</span>
-<span id="annotated-cell-13-20"><a href="#annotated-cell-13-20"></a>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="annotated-cell-16"><pre class="sourceCode numberSource python code-annotation-code number-lines code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-16-1"><a href="#annotated-cell-16-1"></a><span class="kw">def</span> relative_flux(phase: <span class="bu">float</span>) <span class="op">-&gt;</span> <span class="bu">float</span>:</span>
+<span id="annotated-cell-16-2"><a href="#annotated-cell-16-2"></a>    <span class="co">"""Toy transit model: flat-ish dip near phase zero."""</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-16" data-target-annotation="1">1</button><span id="annotated-cell-16-3" class="code-annotation-target"><a href="#annotated-cell-16-3"></a>    ...</span>
+<span id="annotated-cell-16-4"><a href="#annotated-cell-16-4"></a></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-16" data-target-annotation="2">2</button><span id="annotated-cell-16-5" class="code-annotation-target"><a href="#annotated-cell-16-5"></a>phase <span class="op">=</span> ValueTracker(<span class="op">-</span><span class="fl">1.15</span>)</span>
+<span id="annotated-cell-16-6"><a href="#annotated-cell-16-6"></a></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-16" data-target-annotation="3">3</button><span id="annotated-cell-16-7" class="code-annotation-target"><a href="#annotated-cell-16-7"></a>curve <span class="op">=</span> axes.plot(</span>
+<span id="annotated-cell-16-8"><a href="#annotated-cell-16-8"></a>    relative_flux,</span>
+<span id="annotated-cell-16-9"><a href="#annotated-cell-16-9"></a>    x_range<span class="op">=</span>[<span class="op">-</span><span class="fl">1.15</span>, <span class="fl">1.15</span>, <span class="fl">0.01</span>],</span>
+<span id="annotated-cell-16-10"><a href="#annotated-cell-16-10"></a>    color<span class="op">=</span><span class="st">"#6EC6FF"</span>,</span>
+<span id="annotated-cell-16-11"><a href="#annotated-cell-16-11"></a>    stroke_width<span class="op">=</span><span class="dv">4</span>,</span>
+<span id="annotated-cell-16-12"><a href="#annotated-cell-16-12"></a>)</span>
+<span id="annotated-cell-16-13"><a href="#annotated-cell-16-13"></a></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-16" data-target-annotation="4">4</button><span id="annotated-cell-16-14" class="code-annotation-target"><a href="#annotated-cell-16-14"></a>moving_point <span class="op">=</span> always_redraw(</span>
+<span id="annotated-cell-16-15"><a href="#annotated-cell-16-15"></a>    <span class="kw">lambda</span>: Dot(</span>
+<span id="annotated-cell-16-16"><a href="#annotated-cell-16-16"></a>        point<span class="op">=</span>axes.c2p(phase.get_value(), relative_flux(phase.get_value())),</span>
+<span id="annotated-cell-16-17"><a href="#annotated-cell-16-17"></a>        radius<span class="op">=</span><span class="fl">0.055</span>,</span>
+<span id="annotated-cell-16-18"><a href="#annotated-cell-16-18"></a>        color<span class="op">=</span><span class="st">"#FFFFFF"</span>,</span>
+<span id="annotated-cell-16-19"><a href="#annotated-cell-16-19"></a>    )</span>
+<span id="annotated-cell-16-20"><a href="#annotated-cell-16-20"></a>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-13" data-target-annotation="1">1</dt>
+<dt data-target-cell="annotated-cell-16" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-13" data-code-lines="3" data-code-annotation="1">Any function that takes the phase and returns a flux can be used.</span>
+<span data-code-cell="annotated-cell-16" data-code-lines="3" data-code-annotation="1">Any function that takes the phase and returns a flux can be used.</span>
 </dd>
-<dt data-target-cell="annotated-cell-13" data-target-annotation="2">2</dt>
+<dt data-target-cell="annotated-cell-16" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-13" data-code-lines="5" data-code-annotation="2">A single <code>phase</code> tracker drives geometry and photometry.</span>
+<span data-code-cell="annotated-cell-16" data-code-lines="5" data-code-annotation="2">A single <code>phase</code> tracker drives geometry and photometry.</span>
 </dd>
-<dt data-target-cell="annotated-cell-13" data-target-annotation="3">3</dt>
+<dt data-target-cell="annotated-cell-16" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-13" data-code-lines="7" data-code-annotation="3">Plot the full model once as the static context.</span>
+<span data-code-cell="annotated-cell-16" data-code-lines="7" data-code-annotation="3">Plot the full model once as the static context.</span>
 </dd>
-<dt data-target-cell="annotated-cell-13" data-target-annotation="4">4</dt>
+<dt data-target-cell="annotated-cell-16" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-cell="annotated-cell-13" data-code-lines="14" data-code-annotation="4">Redraw only the marker to show current phase/flux.</span>
+<span data-code-cell="annotated-cell-16" data-code-lines="14" data-code-annotation="4">Redraw only the marker to show current phase/flux.</span>
 </dd>
 </dl>
 <div class="small">
@@ -615,33 +742,33 @@ Til Birnstiel
 </section>
 <section id="transit-animation" class="slide level2">
 <h2>Transit – Animation</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="annotated-cell-14"><pre class="sourceCode numberSource python code-annotation-code number-lines code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-14" data-target-annotation="1">1</button><span id="annotated-cell-14-1" class="code-annotation-target"><a href="#annotated-cell-14-1"></a><span class="va">self</span>.play(Write(title))</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-14" data-target-annotation="2">2</button><span id="annotated-cell-14-2" class="code-annotation-target"><a href="#annotated-cell-14-2"></a><span class="va">self</span>.play(FadeIn(star), FadeIn(star_label), FadeIn(planet_label))</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-14" data-target-annotation="3">3</button><span id="annotated-cell-14-3" class="code-annotation-target"><a href="#annotated-cell-14-3"></a><span class="va">self</span>.play(Create(axes), Write(x_label), Write(y_label), Create(curve))</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-14" data-target-annotation="4">4</button><span id="annotated-cell-14-4" class="code-annotation-target"><a href="#annotated-cell-14-4"></a><span class="va">self</span>.add(planet, moving_point)</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-14" data-target-annotation="5">5</button><span id="annotated-cell-14-5" class="code-annotation-target"><a href="#annotated-cell-14-5"></a><span class="va">self</span>.play(phase.animate.set_value(<span class="fl">1.15</span>), run_time<span class="op">=</span><span class="dv">6</span>, rate_func<span class="op">=</span>linear)</span>
-<span id="annotated-cell-14-6"><a href="#annotated-cell-14-6"></a><span class="va">self</span>.play(FadeIn(explanation, shift<span class="op">=</span>UP <span class="op">*</span> <span class="fl">0.2</span>))</span>
-<span id="annotated-cell-14-7"><a href="#annotated-cell-14-7"></a><span class="va">self</span>.wait()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="annotated-cell-17"><pre class="sourceCode numberSource python code-annotation-code number-lines code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-17" data-target-annotation="1">1</button><span id="annotated-cell-17-1" class="code-annotation-target"><a href="#annotated-cell-17-1"></a><span class="va">self</span>.play(Write(title))</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-17" data-target-annotation="2">2</button><span id="annotated-cell-17-2" class="code-annotation-target"><a href="#annotated-cell-17-2"></a><span class="va">self</span>.play(FadeIn(star), FadeIn(star_label), FadeIn(planet_label))</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-17" data-target-annotation="3">3</button><span id="annotated-cell-17-3" class="code-annotation-target"><a href="#annotated-cell-17-3"></a><span class="va">self</span>.play(Create(axes), Write(x_label), Write(y_label), Create(curve))</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-17" data-target-annotation="4">4</button><span id="annotated-cell-17-4" class="code-annotation-target"><a href="#annotated-cell-17-4"></a><span class="va">self</span>.add(planet, moving_point)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-17" data-target-annotation="5">5</button><span id="annotated-cell-17-5" class="code-annotation-target"><a href="#annotated-cell-17-5"></a><span class="va">self</span>.play(phase.animate.set_value(<span class="fl">1.15</span>), run_time<span class="op">=</span><span class="dv">6</span>, rate_func<span class="op">=</span>linear)</span>
+<span id="annotated-cell-17-6"><a href="#annotated-cell-17-6"></a><span class="va">self</span>.play(FadeIn(explanation, shift<span class="op">=</span>UP <span class="op">*</span> <span class="fl">0.2</span>))</span>
+<span id="annotated-cell-17-7"><a href="#annotated-cell-17-7"></a><span class="va">self</span>.wait()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-14" data-target-annotation="1">1</dt>
+<dt data-target-cell="annotated-cell-17" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-14" data-code-lines="1" data-code-annotation="1">This is the fancy “writing” animation.</span>
+<span data-code-cell="annotated-cell-17" data-code-lines="1" data-code-annotation="1">This is the fancy “writing” animation.</span>
 </dd>
-<dt data-target-cell="annotated-cell-14" data-target-annotation="2">2</dt>
+<dt data-target-cell="annotated-cell-17" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-14" data-code-lines="2" data-code-annotation="2">Fade all those in at once</span>
+<span data-code-cell="annotated-cell-17" data-code-lines="2" data-code-annotation="2">Fade all those in at once</span>
 </dd>
-<dt data-target-cell="annotated-cell-14" data-target-annotation="3">3</dt>
+<dt data-target-cell="annotated-cell-17" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-14" data-code-lines="3" data-code-annotation="3">Next step: <code>Create</code> will animate a “build up” of the curve.</span>
+<span data-code-cell="annotated-cell-17" data-code-lines="3" data-code-annotation="3">Next step: <code>Create</code> will animate a “build up” of the curve.</span>
 </dd>
-<dt data-target-cell="annotated-cell-14" data-target-annotation="4">4</dt>
+<dt data-target-cell="annotated-cell-17" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-cell="annotated-cell-14" data-code-lines="4" data-code-annotation="4">Add will just appear them instantly</span>
+<span data-code-cell="annotated-cell-17" data-code-lines="4" data-code-annotation="4">Add will just appear them instantly</span>
 </dd>
-<dt data-target-cell="annotated-cell-14" data-target-annotation="5">5</dt>
+<dt data-target-cell="annotated-cell-17" data-target-annotation="5">5</dt>
 <dd>
-<span data-code-cell="annotated-cell-14" data-code-lines="5" data-code-annotation="5">The main animation: move the phase tracker from start to end. The <code>always_redraw</code> objects will follow along. The rate function <code>linear</code> is uniform motion.</span>
+<span data-code-cell="annotated-cell-17" data-code-lines="5" data-code-annotation="5">The main animation: move the phase tracker from start to end. The <code>always_redraw</code> objects will follow along. The rate function <code>linear</code> is uniform motion.</span>
 </dd>
 </dl>
 </section></section>
@@ -719,152 +846,19 @@ Til Birnstiel
 <span id="cb12-60"><a></a></span>
 <span id="cb12-61"><a></a>        <span class="va">self</span>.wait()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section></section>
-<section>
-<section id="example-4-h-r-diagram" class="title-slide slide level1 center">
-<h1>Example 4: H-R diagram</h1>
-
-</section>
-<section id="h-r-diagram-animated-data-story" class="slide level2 scrollable">
-<h2>H-R diagram: animated data story</h2>
-<p>The example uses stylized points, but the pattern works for real catalogs:</p>
-<ol type="1">
-<li>load arrays</li>
-<li>map values to axes</li>
-<li>group related points</li>
-<li>animate the story in layers</li>
-</ol>
-<p>Render:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a></a><span class="bu">cd</span> examples</span>
-<span id="cb13-2"><a></a><span class="ex">manim</span> <span class="at">-pql</span> hr_diagram.py HRDiagram</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="h-r-diagram-axes-and-point-groups" class="slide level2">
-<h2>H-R diagram: axes and point groups</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="annotated-cell-17"><pre class="sourceCode numberSource python code-annotation-code number-lines code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-17" data-target-annotation="1">1</button><span id="annotated-cell-17-1" class="code-annotation-target"><a href="#annotated-cell-17-1"></a>axes <span class="op">=</span> Axes(</span>
-<span id="annotated-cell-17-2"><a href="#annotated-cell-17-2"></a>    x_range<span class="op">=</span>[<span class="op">-</span><span class="fl">2.5</span>, <span class="fl">2.5</span>, <span class="dv">1</span>],</span>
-<span id="annotated-cell-17-3"><a href="#annotated-cell-17-3"></a>    y_range<span class="op">=</span>[<span class="op">-</span><span class="fl">4.2</span>, <span class="fl">4.2</span>, <span class="dv">2</span>],</span>
-<span id="annotated-cell-17-4"><a href="#annotated-cell-17-4"></a>    x_length<span class="op">=</span><span class="fl">7.2</span>,</span>
-<span id="annotated-cell-17-5"><a href="#annotated-cell-17-5"></a>    y_length<span class="op">=</span><span class="fl">4.6</span>,</span>
-<span id="annotated-cell-17-6"><a href="#annotated-cell-17-6"></a>    tips<span class="op">=</span><span class="va">False</span>,</span>
-<span id="annotated-cell-17-7"><a href="#annotated-cell-17-7"></a>)</span>
-<span id="annotated-cell-17-8"><a href="#annotated-cell-17-8"></a></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-17" data-target-annotation="2">2</button><span id="annotated-cell-17-9" class="code-annotation-target"><a href="#annotated-cell-17-9"></a>xs <span class="op">=</span> np.linspace(<span class="op">-</span><span class="fl">2.15</span>, <span class="fl">2.15</span>, <span class="dv">20</span>)</span>
-<span id="annotated-cell-17-10"><a href="#annotated-cell-17-10"></a>main_sequence <span class="op">=</span> VGroup(</span>
-<span id="annotated-cell-17-11"><a href="#annotated-cell-17-11"></a>    <span class="op">*</span>[</span>
-<span id="annotated-cell-17-12"><a href="#annotated-cell-17-12"></a>        dot_at(x, <span class="op">-</span><span class="fl">1.15</span> <span class="op">*</span> x <span class="op">+</span> <span class="fl">0.15</span> <span class="op">+</span> <span class="fl">0.20</span> <span class="op">*</span> np.sin(<span class="dv">3</span> <span class="op">*</span> x), star_color(x))</span>
-<span id="annotated-cell-17-13"><a href="#annotated-cell-17-13"></a>        <span class="cf">for</span> x <span class="kw">in</span> xs</span>
-<span id="annotated-cell-17-14"><a href="#annotated-cell-17-14"></a>    ]</span>
-<span id="annotated-cell-17-15"><a href="#annotated-cell-17-15"></a>)</span>
-<span id="annotated-cell-17-16"><a href="#annotated-cell-17-16"></a></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-17" data-target-annotation="3">3</button><span id="annotated-cell-17-17" class="code-annotation-target"><a href="#annotated-cell-17-17"></a><span class="va">self</span>.play(LaggedStart(<span class="op">*</span>[FadeIn(dot, scale<span class="op">=</span><span class="fl">0.5</span>) <span class="cf">for</span> dot <span class="kw">in</span> main_sequence]))</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<dl class="code-annotation-container-hidden code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-17" data-target-annotation="1">1</dt>
-<dd>
-<span data-code-cell="annotated-cell-17" data-code-lines="1" data-code-annotation="1">Set axes first so all later points have clear meaning.</span>
-</dd>
-<dt data-target-cell="annotated-cell-17" data-target-annotation="2">2</dt>
-<dd>
-<span data-code-cell="annotated-cell-17" data-code-lines="9" data-code-annotation="2">Map sampled values into a stylized main sequence.</span>
-</dd>
-<dt data-target-cell="annotated-cell-17" data-target-annotation="3">3</dt>
-<dd>
-<span data-code-cell="annotated-cell-17" data-code-lines="17" data-code-annotation="3"><code>LaggedStart</code> reveals structure progressively for narration.</span>
-</dd>
-</dl>
-<div class="small">
-<p>File: <code>examples/hr_diagram.py</code></p>
-</div>
-</section>
-<section id="h-r-diagram-next-steps-with-real-data" class="slide level2">
-<h2>H-R diagram: next steps with real data</h2>
-<p>Replace the toy arrays with catalog data, for example:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a></a><span class="co"># sketch only: keep data loading separate from scene logic</span></span>
-<span id="cb14-2"><a></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb14-3"><a></a></span>
-<span id="cb14-4"><a></a>catalog <span class="op">=</span> pd.read_csv(<span class="st">"nearby_stars.csv"</span>)</span>
-<span id="cb14-5"><a></a>color <span class="op">=</span> catalog[<span class="st">"bp_rp"</span>].to_numpy()</span>
-<span id="cb14-6"><a></a>abs_mag <span class="op">=</span> catalog[<span class="st">"M_G"</span>].to_numpy()</span>
-<span id="cb14-7"><a></a></span>
-<span id="cb14-8"><a></a>points <span class="op">=</span> VGroup(<span class="op">*</span>[</span>
-<span id="cb14-9"><a></a>    Dot(axes.c2p(c, <span class="op">-</span>m), radius<span class="op">=</span><span class="fl">0.025</span>)</span>
-<span id="cb14-10"><a></a>    <span class="cf">for</span> c, m <span class="kw">in</span> <span class="bu">zip</span>(color, abs_mag)</span>
-<span id="cb14-11"><a></a>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="callout callout-none no-icon callout-style-simple">
-<div class="callout-body">
-<div class="callout-content">
-<p>Manim is not a replacement for scientific plotting. It is a presentation layer for explaining the plot.</p>
-</div>
-</div>
-</div>
-</section></section>
-<section>
-<section id="how-to-structure-your-own-animation" class="title-slide slide level1 center">
-<h1>How to structure your own animation</h1>
-
-</section>
-<section id="a-practical-workflow" class="slide level2 scrollable">
-<h2>A practical workflow</h2>
-<ol type="1">
-<li>Sketch the story in one sentence.</li>
-<li>Make the static objects first.</li>
-<li>Add one moving quantity with <code>ValueTracker</code>.</li>
-<li>Use <code>always_redraw</code> only where the object truly changes.</li>
-<li>Render with <code>-ql</code> until the timing works.</li>
-<li>Render final clips with <code>-qh</code> or <code>-qk</code> only at the end.</li>
-</ol>
-</section>
-<section id="debugging-tips" class="slide level2">
-<h2>Debugging tips</h2>
+<section id="summary" class="title-slide slide level1 center">
+<h1>Summary</h1>
 <ul>
-<li>Use <code>Text</code> labels during development, remove later.</li>
-<li>Keep functions small: <code>make_axes()</code>, <code>make_star_field()</code>, <code>make_light_curve()</code>.</li>
-<li>Prefer named variables over long one-line animations.</li>
-<li>If rendering is slow, preview shorter segments or fewer points.</li>
-<li>Avoid LaTeX until the core animation works.</li>
+<li><p><code>manim</code> is a powerful tool for creating precise, reproducible animations in Python.</p></li>
+<li><p>By understanding the core concepts of <code>Mobjects</code>, Animations, and Updaters, you can create complex visualizations that effectively communicate mathematical and astronomical ideas.</p></li>
+<li><p>It does not take away the work of <strong>creating</strong> the content, but it makes it easier to animate a plot with <strong>high-quality animations</strong>.</p></li>
 </ul>
-</section></section>
-<section>
-<section id="wrap-up" class="title-slide slide level1 center">
-<h1>Wrap-up</h1>
+<div class="fragment section-label">
+<p>Let me know what you created with Manim! <br> Happy to chat and share.</p>
+</div>
+
 
 </section>
-<section id="what-to-try-after-code-coffee" class="slide level2">
-<h2>What to try after Code Coffee</h2>
-<ul>
-<li>Change the orbit to an ellipse.</li>
-<li>Add eccentric anomaly / true anomaly labels.</li>
-<li>Add limb darkening to the transit example.</li>
-<li>Load a real Gaia subset for the H-R diagram.</li>
-<li>Export a short animation for a lecture slide or outreach post.</li>
-</ul>
-<div class="callout callout-none no-icon callout-style-simple">
-<div class="callout-body">
-<div class="callout-content">
-<p>Start small: one scene, one moving parameter, one message.</p>
-</div>
-</div>
-</div>
-</section>
-<section id="files-in-this-quarto-project" class="slide level2">
-<h2>Files in this Quarto project</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb15-1"><a></a>manim_quarto/</span>
-<span id="cb15-2"><a></a>├── _quarto.yml</span>
-<span id="cb15-3"><a></a>├── manim.qmd</span>
-<span id="cb15-4"><a></a>├── styles.css</span>
-<span id="cb15-5"><a></a>├── README.md</span>
-<span id="cb15-6"><a></a>└── examples/</span>
-<span id="cb15-7"><a></a>    ├── orbit_basics.py</span>
-<span id="cb15-8"><a></a>    ├── exoplanet_transit.py</span>
-<span id="cb15-9"><a></a>    ├── stellar_parallax.py</span>
-<span id="cb15-10"><a></a>    ├── hr_diagram.py</span>
-<span id="cb15-11"><a></a>    └── render_all_examples.sh</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Render the slide deck:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a></a><span class="ex">quarto</span> preview manim.qmd</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Render the animations:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a></a><span class="bu">cd</span> examples</span>
-<span id="cb17-2"><a></a><span class="fu">bash</span> render_all_examples.sh</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-
-
-</section></section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <div class="footer footer-default">
@@ -879,6 +873,7 @@ Til Birnstiel
   <script src="site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
   <script src="site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
   <script src="site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="site_libs/revealjs/plugin/reveal-js-codefrag/codefrag.js"></script>
   <script src="site_libs/revealjs/plugin/quarto-support/support.js"></script>
   
 
@@ -1071,7 +1066,7 @@ Til Birnstiel
         },
 
         // reveal.js plugins
-        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealJsCodefrag, QuartoSupport,
 
           RevealMath,
           RevealNotes,
@@ -1332,6 +1327,7 @@ Til Birnstiel
                 duration: [200, 0],
                 offset: [5, 10],
                 arrow: true,
+                trigger: 'click',
                 appendTo: function(el) {
                   return el.parentElement.parentElement.parentElement;
                 },
@@ -1339,6 +1335,7 @@ Til Birnstiel
                 interactiveBorder: 10,
                 theme: 'light-border',
                 placement: 'right',
+                positionFixed: true,
                 popperOptions: {
                   modifiers: [
                   {
