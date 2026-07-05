@@ -17,6 +17,14 @@ jobs:
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install Python dependencies
+        run: python3 -m pip install jupyter
+
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
         with:
