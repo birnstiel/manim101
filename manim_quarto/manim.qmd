@@ -487,6 +487,23 @@ The example is qualitative, not a full astrometric model.
 {{< include examples/stellar_parallax.py >}}
 ```
 
+# Example 4: FLD Showcase
+
+## The Code
+
+::: {.small}
+File: `examples/fld_showcase.py`
+:::
+
+
+```python
+{{< include examples/fld_showcase.py >}}
+```
+
+## Video
+
+{{< video fld.mp4 >}}
+
 # Summary
 
 - `manim` is a powerful tool for creating precise, reproducible animations in Python.
