@@ -504,7 +504,7 @@ File: `examples/fld_showcase.py`
 
 {{< video fld.mp4 >}}
 
-# Summary
+# Summary {.smaller-slide}
 
 - `manim` is a powerful tool for creating precise, reproducible animations in Python.
 
