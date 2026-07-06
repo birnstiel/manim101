@@ -6,7 +6,9 @@
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/quarto-contrib/videojs/video.min.js"></script>
+<link href="site_libs/quarto-contrib/videojs/video-js.css" rel="stylesheet"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.9.38">
 
   <meta name="author" content="Til Birnstiel    Slides: birnstiel.github.io/manim101   Source: github.com/birnstiel/manim101 ">
@@ -846,6 +848,143 @@ Til Birnstiel <br><br> <span style="font-size: x-large;"> Slides: birnstiel.gith
 <span id="cb12-60"><a></a></span>
 <span id="cb12-61"><a></a>        <span class="va">self</span>.wait()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section></section>
+<section>
+<section id="example-4-fld-showcase" class="title-slide slide level1 center">
+<h1>Example 4: FLD Showcase</h1>
+
+</section>
+<section id="the-code" class="slide level2">
+<h2>The Code</h2>
+<div class="small">
+<p>File: <code>examples/fld_showcase.py</code></p>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a></a><span class="im">from</span> manim <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb13-2"><a></a></span>
+<span id="cb13-3"><a></a></span>
+<span id="cb13-4"><a></a><span class="kw">class</span> BetaToFLDEquation(Scene):</span>
+<span id="cb13-5"><a></a>    <span class="kw">def</span> construct(<span class="va">self</span>):</span>
+<span id="cb13-6"><a></a>        <span class="co"># Optional: darker background for a more cinematic look</span></span>
+<span id="cb13-7"><a></a>        <span class="va">self</span>.camera.background_color <span class="op">=</span> <span class="st">"#0b1020"</span></span>
+<span id="cb13-8"><a></a></span>
+<span id="cb13-9"><a></a>        title <span class="op">=</span> Text(<span class="st">"Flux-limited diffusion"</span>, font_size<span class="op">=</span><span class="dv">34</span>)</span>
+<span id="cb13-10"><a></a>        title.to_edge(UP)</span>
+<span id="cb13-11"><a></a>        title.set_color(<span class="st">"#d7eaff"</span>)</span>
+<span id="cb13-12"><a></a></span>
+<span id="cb13-13"><a></a>        beta <span class="op">=</span> MathTex(<span class="vs">r"</span><span class="dv">\b</span><span class="vs">eta"</span>, font_size<span class="op">=</span><span class="dv">150</span>)</span>
+<span id="cb13-14"><a></a>        beta.set_color(<span class="st">"#FDB813"</span>)</span>
+<span id="cb13-15"><a></a></span>
+<span id="cb13-16"><a></a>        equation <span class="op">=</span> MathTex(</span>
+<span id="cb13-17"><a></a>            <span class="vs">r"</span><span class="dv">\m</span><span class="vs">athbf{F}"</span>,</span>
+<span id="cb13-18"><a></a>            <span class="vs">r"="</span>,</span>
+<span id="cb13-19"><a></a>            <span class="vs">r"-"</span>,</span>
+<span id="cb13-20"><a></a>            <span class="vs">r"</span><span class="ch">\f</span><span class="vs">rac{c</span><span class="ch">\,</span><span class="er">\</span><span class="vs">lambda}{</span><span class="er">\</span><span class="vs">kappa_{</span><span class="ch">\r</span><span class="vs">m R}</span><span class="ch">\r</span><span class="vs">ho}"</span>,</span>
+<span id="cb13-21"><a></a>            <span class="vs">r"</span><span class="ch">\n</span><span class="vs">abla E_{</span><span class="ch">\r</span><span class="vs">m rad}"</span>,</span>
+<span id="cb13-22"><a></a>            font_size<span class="op">=</span><span class="dv">54</span>,</span>
+<span id="cb13-23"><a></a>        )</span>
+<span id="cb13-24"><a></a></span>
+<span id="cb13-25"><a></a>        <span class="co"># Color individual pieces of the equation</span></span>
+<span id="cb13-26"><a></a>        equation[<span class="dv">0</span>].set_color(<span class="st">"#6EC6FF"</span>)   <span class="co"># flux</span></span>
+<span id="cb13-27"><a></a>        equation[<span class="dv">3</span>].set_color(<span class="st">"#8EF0D1"</span>)   <span class="co"># diffusion coefficient</span></span>
+<span id="cb13-28"><a></a>        equation[<span class="dv">4</span>].set_color(<span class="st">"#FDB813"</span>)   <span class="co"># radiation-energy gradient</span></span>
+<span id="cb13-29"><a></a></span>
+<span id="cb13-30"><a></a>        equation.move_to(ORIGIN)</span>
+<span id="cb13-31"><a></a></span>
+<span id="cb13-32"><a></a>        <span class="co"># Small explanatory labels</span></span>
+<span id="cb13-33"><a></a>        flux_label <span class="op">=</span> Text(<span class="st">"radiative flux"</span>, font_size<span class="op">=</span><span class="dv">20</span>, color<span class="op">=</span><span class="st">"#6EC6FF"</span>)</span>
+<span id="cb13-34"><a></a>        flux_label.next_to(equation[<span class="dv">0</span>], DOWN, buff<span class="op">=</span><span class="fl">0.45</span>)</span>
+<span id="cb13-35"><a></a></span>
+<span id="cb13-36"><a></a>        limiter_label <span class="op">=</span> Text(<span class="st">"flux limiter"</span>, font_size<span class="op">=</span><span class="dv">20</span>, color<span class="op">=</span><span class="st">"#8EF0D1"</span>)</span>
+<span id="cb13-37"><a></a>        limiter_label.next_to(equation[<span class="dv">3</span>], UP, buff<span class="op">=</span><span class="fl">0.35</span>)</span>
+<span id="cb13-38"><a></a></span>
+<span id="cb13-39"><a></a>        gradient_label <span class="op">=</span> Text(<span class="st">"radiation energy gradient"</span>,</span>
+<span id="cb13-40"><a></a>                              font_size<span class="op">=</span><span class="dv">20</span>, color<span class="op">=</span><span class="st">"#FDB813"</span>)</span>
+<span id="cb13-41"><a></a>        gradient_label.next_to(equation[<span class="dv">4</span>], DOWN, buff<span class="op">=</span><span class="fl">0.45</span>)</span>
+<span id="cb13-42"><a></a></span>
+<span id="cb13-43"><a></a>        labels <span class="op">=</span> VGroup(flux_label, limiter_label, gradient_label)</span>
+<span id="cb13-44"><a></a></span>
+<span id="cb13-45"><a></a>        <span class="co"># Box around final equation</span></span>
+<span id="cb13-46"><a></a>        box <span class="op">=</span> SurroundingRectangle(</span>
+<span id="cb13-47"><a></a>            equation,</span>
+<span id="cb13-48"><a></a>            color<span class="op">=</span><span class="st">"#6EC6FF"</span>,</span>
+<span id="cb13-49"><a></a>            buff<span class="op">=</span><span class="fl">0.28</span>,</span>
+<span id="cb13-50"><a></a>            corner_radius<span class="op">=</span><span class="fl">0.12</span>,</span>
+<span id="cb13-51"><a></a>            stroke_width<span class="op">=</span><span class="dv">3</span>,</span>
+<span id="cb13-52"><a></a>        )</span>
+<span id="cb13-53"><a></a></span>
+<span id="cb13-54"><a></a>        glow_box <span class="op">=</span> SurroundingRectangle(</span>
+<span id="cb13-55"><a></a>            equation,</span>
+<span id="cb13-56"><a></a>            color<span class="op">=</span><span class="st">"#6EC6FF"</span>,</span>
+<span id="cb13-57"><a></a>            buff<span class="op">=</span><span class="fl">0.34</span>,</span>
+<span id="cb13-58"><a></a>            corner_radius<span class="op">=</span><span class="fl">0.15</span>,</span>
+<span id="cb13-59"><a></a>            stroke_width<span class="op">=</span><span class="dv">10</span>,</span>
+<span id="cb13-60"><a></a>            stroke_opacity<span class="op">=</span><span class="fl">0.18</span>,</span>
+<span id="cb13-61"><a></a>        )</span>
+<span id="cb13-62"><a></a></span>
+<span id="cb13-63"><a></a>        caption <span class="op">=</span> Text(</span>
+<span id="cb13-64"><a></a>            <span class="st">"A compact closure for radiation transport"</span>,</span>
+<span id="cb13-65"><a></a>            font_size<span class="op">=</span><span class="dv">24</span>,</span>
+<span id="cb13-66"><a></a>            color<span class="op">=</span><span class="st">"#b8c7dd"</span>,</span>
+<span id="cb13-67"><a></a>        )</span>
+<span id="cb13-68"><a></a>        caption.next_to(box, DOWN, buff<span class="op">=</span><span class="fl">0.65</span>)</span>
+<span id="cb13-69"><a></a></span>
+<span id="cb13-70"><a></a>        <span class="co"># Animation sequence</span></span>
+<span id="cb13-71"><a></a>        <span class="va">self</span>.play(FadeIn(title, shift<span class="op">=</span>DOWN <span class="op">*</span> <span class="fl">0.2</span>))</span>
+<span id="cb13-72"><a></a>        <span class="va">self</span>.play(Write(beta), run_time<span class="op">=</span><span class="fl">1.0</span>)</span>
+<span id="cb13-73"><a></a>        <span class="va">self</span>.wait(<span class="fl">0.4</span>)</span>
+<span id="cb13-74"><a></a></span>
+<span id="cb13-75"><a></a>        <span class="co"># Transform beta into the equation</span></span>
+<span id="cb13-76"><a></a>        <span class="va">self</span>.play(</span>
+<span id="cb13-77"><a></a>            Transform(beta, equation),</span>
+<span id="cb13-78"><a></a>            run_time<span class="op">=</span><span class="fl">1.6</span>,</span>
+<span id="cb13-79"><a></a>            rate_func<span class="op">=</span>smooth,</span>
+<span id="cb13-80"><a></a>        )</span>
+<span id="cb13-81"><a></a></span>
+<span id="cb13-82"><a></a>        <span class="co"># After Transform, beta now visually contains the equation.</span></span>
+<span id="cb13-83"><a></a>        <span class="co"># Use equation itself from here on for easier highlighting.</span></span>
+<span id="cb13-84"><a></a>        <span class="va">self</span>.remove(beta)</span>
+<span id="cb13-85"><a></a>        <span class="va">self</span>.add(equation)</span>
+<span id="cb13-86"><a></a></span>
+<span id="cb13-87"><a></a>        <span class="va">self</span>.play(</span>
+<span id="cb13-88"><a></a>            LaggedStart(</span>
+<span id="cb13-89"><a></a>                Indicate(equation[<span class="dv">0</span>], color<span class="op">=</span><span class="st">"#6EC6FF"</span>, scale_factor<span class="op">=</span><span class="fl">1.15</span>),</span>
+<span id="cb13-90"><a></a>                Indicate(equation[<span class="dv">3</span>], color<span class="op">=</span><span class="st">"#8EF0D1"</span>, scale_factor<span class="op">=</span><span class="fl">1.08</span>),</span>
+<span id="cb13-91"><a></a>                Indicate(equation[<span class="dv">4</span>], color<span class="op">=</span><span class="st">"#FDB813"</span>, scale_factor<span class="op">=</span><span class="fl">1.08</span>),</span>
+<span id="cb13-92"><a></a>                lag_ratio<span class="op">=</span><span class="fl">0.25</span>,</span>
+<span id="cb13-93"><a></a>            ),</span>
+<span id="cb13-94"><a></a>            run_time<span class="op">=</span><span class="fl">2.0</span>,</span>
+<span id="cb13-95"><a></a>        )</span>
+<span id="cb13-96"><a></a></span>
+<span id="cb13-97"><a></a>        <span class="va">self</span>.play(</span>
+<span id="cb13-98"><a></a>            LaggedStart(</span>
+<span id="cb13-99"><a></a>                FadeIn(flux_label, shift<span class="op">=</span>UP <span class="op">*</span> <span class="fl">0.15</span>),</span>
+<span id="cb13-100"><a></a>                FadeIn(limiter_label, shift<span class="op">=</span>DOWN <span class="op">*</span> <span class="fl">0.15</span>),</span>
+<span id="cb13-101"><a></a>                FadeIn(gradient_label, shift<span class="op">=</span>UP <span class="op">*</span> <span class="fl">0.15</span>),</span>
+<span id="cb13-102"><a></a>                lag_ratio<span class="op">=</span><span class="fl">0.2</span>,</span>
+<span id="cb13-103"><a></a>            )</span>
+<span id="cb13-104"><a></a>        )</span>
+<span id="cb13-105"><a></a></span>
+<span id="cb13-106"><a></a>        <span class="va">self</span>.play(</span>
+<span id="cb13-107"><a></a>            LaggedStart(</span>
+<span id="cb13-108"><a></a>                FadeOut(flux_label, shift<span class="op">=</span>DOWN <span class="op">*</span> <span class="fl">0.15</span>),</span>
+<span id="cb13-109"><a></a>                FadeOut(limiter_label, shift<span class="op">=</span>UP <span class="op">*</span> <span class="fl">0.15</span>),</span>
+<span id="cb13-110"><a></a>                FadeOut(gradient_label, shift<span class="op">=</span>DOWN <span class="op">*</span> <span class="fl">0.15</span>),</span>
+<span id="cb13-111"><a></a>                lag_ratio<span class="op">=</span><span class="fl">0.2</span>,</span>
+<span id="cb13-112"><a></a>            )</span>
+<span id="cb13-113"><a></a>        )</span>
+<span id="cb13-114"><a></a></span>
+<span id="cb13-115"><a></a>        <span class="va">self</span>.play(</span>
+<span id="cb13-116"><a></a>            Create(glow_box),</span>
+<span id="cb13-117"><a></a>            Create(box),</span>
+<span id="cb13-118"><a></a>            run_time<span class="op">=</span><span class="fl">1.0</span>,</span>
+<span id="cb13-119"><a></a>        )</span>
+<span id="cb13-120"><a></a></span>
+<span id="cb13-121"><a></a>        <span class="va">self</span>.play(FadeIn(caption, shift<span class="op">=</span>UP <span class="op">*</span> <span class="fl">0.2</span>))</span>
+<span id="cb13-122"><a></a>        <span class="va">self</span>.wait(<span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="video" class="slide level2">
+<h2>Video</h2>
+<video id="video_shortcode_videojs_video1" class="video-js vjs-default-skin vjs-big-play-centered vjs-fluid" controls="" preload="auto" data-setup="{}" title=""><source src="fld.mp4"></video>
+</section></section>
 <section id="summary" class="title-slide slide level1 center">
 <h1>Summary</h1>
 <ul>
@@ -1397,6 +1536,7 @@ Til Birnstiel <br><br> <span style="font-size: x-large;"> Slides: birnstiel.gith
         }
       });
       </script>
+    <script>videojs(video_shortcode_videojs_video1);</script>
     
 
 </body></html>
